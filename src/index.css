@@ -1,0 +1,213 @@
+/* 页面加载动画 */
+body {
+    opacity: 0;
+    height: 100%;
+    margin: 8px;
+}
+
+body.ready {
+    opacity: 1;
+    transition: 0.15s opacity;
+}
+
+/* 充满页面 */
+mdui-layout {
+    height: calc(100vh - 17px);
+}
+
+/* 题库列表自适应宽度 */
+mdui-list {
+    width: 100%;
+}
+
+mdui-list-subheader {
+    width: 100%;
+}
+
+mdui-list-item {
+    flex: 0 0 25%;
+    /* display: flex; */
+    /* align-items: center; */
+}
+
+mdui-badge {
+    margin-left: 5px;
+}
+
+mdui-radio {
+    width: 100%;
+}
+
+h5 {
+    line-height: var(--mdui-typescale-headline-medium-line-height);
+    font-size: var(--mdui-typescale-headline-medium-size);
+    letter-spacing: var(--mdui-typescale-headline-medium-tracking);
+    font-weight: var(--mdui-typescale-headline-medium-weight);
+}
+
+p {
+    line-height: var(--mdui-typescale-body-large-line-height);
+    font-size: var(--mdui-typescale-body-large-size);
+    letter-spacing: var(--mdui-typescale-body-large-tracking);
+    font-weight: var(--mdui-typescale-body-large-weight);
+}
+
+strong {
+    line-height: var(--mdui-typescale-body-large-line-height);
+    font-size: var(--mdui-typescale-body-large-size);
+    letter-spacing: var(--mdui-typescale-body-large-tracking);
+}
+
+.items-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+/* 答题页面样式 */
+#testContainer {
+    display: none;
+    /* 
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; */
+    /* 或者设置为具体的高度 */
+}
+
+#controlArea {
+    margin: 5% 2% 2% 2%;
+}
+
+.prev-btn {
+    float: left;
+    display: none;
+}
+
+.next-btn {
+    float: right;
+}
+
+/* 页面描述 */
+.questionnaire-description {
+    /*  */
+    margin-bottom: 2px;
+}
+
+/* 页面提示 */
+.questionnaire-tips {
+    /* line-height: var(--mdui-typescale-body-large-line-height);
+    font-size: var(--mdui-typescale-body-large-size);
+    letter-spacing: var(--mdui-typescale-body-large-tracking); */
+    margin-top: 5px;
+}
+
+/* 页面描述 */
+.question {
+    /* line-height: var(--mdui-typescale-body-large-line-height);
+    font-size: var(--mdui-typescale-body-large-size);
+    letter-spacing: var(--mdui-typescale-body-large-tracking);
+    font-weight: var(--mdui-typescale-body-large-weight); */
+    margin-bottom: 8px;
+}
+
+.progress-tip {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2%;
+}
+
+.progress-bar {
+    margin-left: 10px;
+}
+
+.center{
+    text-align: center;
+}
+
+#nullTip {
+    display: none;
+    width: 100%;
+}
+
+#testArea {
+    display: none;
+}
+
+#references {
+    margin-top: 5%;
+}
+
+#resultArea {
+    margin-top: 3%;
+    display: none;
+}
+
+#backBtn {
+    display: none;
+}
+
+.result-tips {
+    line-height: var(--mdui-typescale-body-large-line-height);
+    font-size: var(--mdui-typescale-body-large-size);
+    letter-spacing: var(--mdui-typescale-body-large-tracking);
+}
+
+.red {
+    color: #B10000;
+}
+
+.orange {
+    color: #E65100;
+}
+
+.yellow {
+    color: #FFA000;
+}
+
+.green {
+    color: #1B5E20;
+}
+
+@media (prefers-color-scheme: dark) {
+    .red {
+        color: #D32F2F;
+    }
+
+    .orange {
+        color: #F57F17;
+    }
+
+    .yellow {
+        color: #e9d200;
+    }
+
+    .green {
+        color: #00C853;
+    }
+}
+
+@media (max-width: 1000px) {
+    .items-container {
+        flex-basis: 33.33%;
+        /* 中大屏幕3列 */
+    }
+}
+
+@media (max-width: 900px) {
+    .items-container {
+        flex-basis: 50%;
+        /* 中等屏幕2列 */
+    }
+}
+
+@media (max-width: 600px) {
+    .items-container {
+        flex-direction: column;
+        /* 小屏幕单列 */
+    }
+
+    mdui-list-item {
+        flex: 0 0 100%;
+        /* 小屏幕单列，item占满宽度 */
+    }
+}

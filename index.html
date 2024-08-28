@@ -1,0 +1,30 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN" class="mdui-theme-auto">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
+    <meta name="renderer" content="webkit">
+    <link href="./src/index.css" rel="stylesheet">
+    <title>问心</title>
+</head>
+
+<body>
+    <mdui-layout>
+        <mdui-navigation-bar id="navigationBar"></mdui-navigation-bar>
+        <mdui-navigation-rail id="navigationRail"></mdui-navigation-rail>
+        <mdui-layout-main id="container"></mdui-layout-main>
+        <mdui-top-app-bar>
+            <mdui-button-icon id="backBtn">
+                <mdui-icon-arrow-back></mdui-icon-arrow-back>
+            </mdui-button-icon>
+            <mdui-top-app-bar-title id="appTitle">问心</mdui-top-app-bar-title>
+        </mdui-top-app-bar>
+    </mdui-layout>
+    <script type="module" src="./src/index.ts"></script>
+    <script type="module" src="./src/list/index.ts"></script>
+    <script type="module" src="./src/test/index.ts"></script>
+    <script type="module" src="./src/settings/index.ts"></script>
+</body>
+
+</html>
