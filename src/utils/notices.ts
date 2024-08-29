@@ -30,7 +30,7 @@ export function showClearAllDataDialog() {
         cancelText: "取消",
         onConfirm: () => {
             clearStorage();
-            window.location.href = '/';
+            window.location.reload();
             return true;
         },
         onCancel: () => true
