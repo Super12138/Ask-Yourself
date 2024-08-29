@@ -71,7 +71,7 @@ document.addEventListener('testPageLoaded', async () => {
     setUpNextButton(nextBtn, 2);
 
     // 获取量表json
-    getFile(`https://cdn.jsdelivr.net/gh/Super12138/AY-Questionnaires-DB/questionnaires/${questionnaire}.json?${new Date().getTime()}`)
+    getFile(`https://cdn.jsdelivr.net/gh/Super12138/AY-Questionnaires-DB@main/questionnaires/${questionnaire}.json?${new Date().getTime()}`)
         .then((response: string) => {
             // 加载完了显示答题页面，隐藏加载提示
             show(container);
