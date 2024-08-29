@@ -3,6 +3,7 @@ import path from 'path';
 import { promisify } from 'util';
 import { defineConfig } from 'vite';
 import { createHtmlPlugin } from 'vite-plugin-html';
+import { VitePWA } from 'vite-plugin-pwa';
 import packageJson from './package.json';
 
 const execPromise = promisify(exec);
@@ -38,6 +39,47 @@ export default defineConfig(async ({ command, mode, isSsrBuild, isPreview }) => 
             createHtmlPlugin({
                 minify: true,
             }),
+            VitePWA({
+                strategies: 'injectManifest',
+                srcDir: 'src/pwa',
+                filename: 'sw.ts',
+                registerType: 'prompt',
+                injectRegister: false,
+
+                pwaAssets: {
+                    disabled: false,
+                    config: true,
+                },
+
+                manifest: {
+                    name: '问心',
+                    short_name: '问心',
+                    start_url: '/Ask-Yourself/',
+                    description: '心理量表集合',
+                    lang: "zh",
+                    theme_color: '#ffffff',
+                    orientation: "any",
+                    dir: "ltr",
+                    shortcuts: [
+                        {
+                            "name": "问心",
+                            "url": "index.html",
+                            "description": "问心"
+                        }
+                    ],
+                },
+
+                injectManifest: {
+                    globPatterns: ['**/*.{js,css,html,svg,png,ico}'],
+                },
+
+                devOptions: {
+                    enabled: false,
+                    navigateFallback: 'index.html',
+                    suppressWarnings: true,
+                    type: 'module',
+                },
+            })
         ],
     };
     if (command === 'serve') {

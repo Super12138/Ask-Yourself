@@ -23,6 +23,7 @@ import '@mdui/icons/brush--outlined.js';
 import '@mdui/icons/list--outlined.js';
 import '@mdui/icons/settings--outlined.js';
 import { PageItem } from './interfaces';
+import { initPWA } from './pwa/pwa';
 import { hide, show } from './utils/element';
 import { getFile } from './utils/network';
 import { showDisclaimerDialog } from './utils/notices';
@@ -126,10 +127,14 @@ window.addEventListener('DOMContentLoaded', async () => {
     // 启动观察
     observer.observe(container, { childList: true, subtree: true });
 
+    // 将不同页面的内容上屏
     container.innerHTML = pageData;
+    // 展示使用提示对话框
     showDisclaimerDialog();
-
+    // 显示页面内容
     document.body.classList.add('ready');
+    // 初始化 PWA
+    initPWA();
 });
 
 /**
