@@ -93,8 +93,10 @@ export function SCL90Score(groupRadio: NodeListOf<RadioGroup>): BasicScoreResult
         sum += value;
         if (value > 0) positiveCount++;
     });
+
     const average: number = sum / groupRadio.length;
-    const positivePainLevel: number = sum / positiveCount;
+    const positivePainLevel: number = sum / (positiveCount > 0 ? positiveCount : 1);
+    
     scl90Score.push({ name: '总分', result: sum });
     scl90Score.push({ name: '总均分', result: Number.parseInt(average.toFixed(2), 10) });
     scl90Score.push({ name: '阳性项目数', result: positiveCount });
