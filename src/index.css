@@ -74,7 +74,15 @@ strong {
 }
 
 #controlArea {
-    margin: 5% 2% 2% 2%;
+    margin: 5% 2% 26% 2%;
+}
+
+a {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    max-width: 200px;
+    /* 设置最大宽度 */
 }
 
 .prev-btn {
@@ -120,7 +128,7 @@ strong {
     margin-left: 10px;
 }
 
-.center{
+.center {
     text-align: center;
 }
 
@@ -134,7 +142,10 @@ strong {
 }
 
 #references {
-    margin-top: 5%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 100%;
 }
 
 #resultArea {

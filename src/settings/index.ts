@@ -1,7 +1,6 @@
 import 'mdui/components/dialog.js';
 import 'mdui/components/dropdown.js';
 import 'mdui/components/switch.js';
-import 'mdui/components/divider.js';
 
 import '@mdui/icons/delete--outlined.js';
 import '@mdui/icons/info--outlined.js';

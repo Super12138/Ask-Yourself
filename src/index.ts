@@ -1,4 +1,5 @@
 import 'mdui/components/button-icon.js';
+import 'mdui/components/divider.js';
 import 'mdui/components/layout-item.js';
 import 'mdui/components/layout-main.js';
 import 'mdui/components/layout.js';
