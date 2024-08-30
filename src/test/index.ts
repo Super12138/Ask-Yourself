@@ -16,11 +16,11 @@ import '@mdui/icons/check--outlined.js';
 import { RadioGroup } from 'mdui/components/radio-group.js';
 import { ButtonType, Criterion, GroupedData, QuestionnaireFile, QuestionResult, Ranges, ScoreResult, Scoring } from '../interfaces';
 import { hide, show } from '../utils/element';
+import { LogHelper } from '../utils/LogHelper';
+import { getFile } from '../utils/network';
 import { showKeyboardNotice } from '../utils/notices';
 import { Question } from './question';
 import { getScore, SCL90Score } from './scoring';
-import { LogHelper } from '../utils/LogHelper';
-import { getFile } from '../utils/network';
 
 const appTitle: TopAppBarTitle = document.querySelector('#appTitle')!;
 const url: URL = new URL(window.location.href);
@@ -29,9 +29,9 @@ const backBtn: ButtonIcon = document.querySelector('#backBtn')!;
 const logHelper = LogHelper.getInstance();
 
 let nextButtonType: number = 1; // 1: 下一题 | 2: 开始 | 3: 提交
-let currentQuestion: number = 0;
+let currentQuestion: number = 0; // 当前题目
 
-let questions = [];
+let questions = []; // 所有题目对象
 
 const buttonType: ButtonType[] = [
     {
@@ -67,6 +67,13 @@ document.addEventListener('testPageLoaded', async () => {
     const introPart: HTMLDivElement = document.querySelector('#introPart')!;
     const resultArea: HTMLDivElement = document.querySelector('#resultArea')!;
 
+    // 首先判断有没有试题，减少不必要的网络请求
+    if (questionnaire === null) {
+        hide(loadingTip);
+        show(nullTip);
+        return;
+    }
+
     // 将“下一题”按钮设置为“开始”
     setUpNextButton(nextBtn, 2);
 
@@ -74,8 +81,12 @@ document.addEventListener('testPageLoaded', async () => {
     getFile(`https://cdn.jsdelivr.net/gh/Super12138/AY-Questionnaires-DB@main/questionnaires/${questionnaire}.json?${new Date().getTime()}`)
         .then((response: string) => {
             // 加载完了显示答题页面，隐藏加载提示
+            loadingTip.style.opacity = "0";
+            setTimeout(() => {
+                hide(loadingTip);
+                container.style.opacity = "1";
+            }, 100)
             show(container);
-            hide(loadingTip);
             const json: QuestionnaireFile = JSON.parse(response); // 解析量表json
             const jsonName: string = json.name;
             appTitle.textContent = jsonName; // 将标题设置为问卷名称
@@ -293,16 +304,10 @@ document.addEventListener('testPageLoaded', async () => {
 
         })
         .catch((error: any) => {
-            if (questionnaire === null) {
-                hide(container);
-                show(nullTip);
-                return;
-            } else {
-                hide(container);
-                nullTip.innerHTML = `错误：<code>${error}</code>`;
-                show(nullTip);
-                return;
-            }
+            hide(container);
+            nullTip.innerHTML = `错误：<code>${error}</code>`;
+            show(nullTip);
+            return;
         });
 });
 

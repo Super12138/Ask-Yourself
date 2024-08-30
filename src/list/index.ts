@@ -8,7 +8,7 @@ import type { Badge } from 'mdui/components/badge.js';
 import type { ListSubheader } from 'mdui/components/list-subheader.js';
 import type { List } from 'mdui/components/list.js';
 import { Category, QuestionnaireList, QuestionnaireListItem, QuestionnairesList } from '../interfaces';
-import { hide } from '../utils/element';
+import { hide, show } from '../utils/element';
 // import { TextField } from 'mdui/components/text-field.js';
 import { LogHelper } from '../utils/LogHelper';
 import { getFile } from '../utils/network';
@@ -18,6 +18,8 @@ const logHelper = LogHelper.getInstance();
 
 document.addEventListener('listPageLoaded', async () => {
     const mduiList: List = document.querySelector('#questionnaireList')!;
+    const loadingTip: HTMLDivElement = document.querySelector('#loadingTip')!;
+    hide(mduiList);
     // const searchBar: TextField = document.querySelector('#searchBar')!;
     getFile(`https://cdn.jsdelivr.net/gh/Super12138/AY-Questionnaires-DB@main/list.json?${new Date().getTime()}`)
         .then((response: string) => {
@@ -38,6 +40,12 @@ document.addEventListener('listPageLoaded', async () => {
                 mduiList.appendChild(subheader); // 添加子标题
                 mduiList.appendChild(listContainer); // 添加列表项
             }
+            loadingTip.style.opacity = "0";
+            setTimeout(() => {
+                hide(loadingTip);
+                mduiList.style.opacity = "1";
+            }, 100)
+            show(mduiList);
         })
         .catch((error) => {
             logHelper.error(error);
@@ -46,6 +54,7 @@ document.addEventListener('listPageLoaded', async () => {
             errorElement.style.textAlign = 'center';
             errorElement.innerHTML = `加载列表时出现问题：<code>${error}</code></p>`
             document.querySelector<HTMLDivElement>('#container')!.appendChild(errorElement);
+            hide(loadingTip);
             hide(mduiList);
         })
 });
