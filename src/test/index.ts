@@ -107,14 +107,22 @@ document.addEventListener('testPageLoaded', async () => {
 
             document.querySelector<HTMLParagraphElement>('#questionnaireDescription')!.textContent = json.description; // 将问卷描述设置为问卷描述
             document.querySelector<HTMLElement>('#questionnaireTips')!.textContent = json.answerTips; // 将提示设置为问卷提示
-            for (const links of json.references) { // 将引用内容上屏
-                const a: HTMLAnchorElement = document.createElement('a');
-                const br: HTMLBRElement = document.createElement('br');
-                a.target = '_blank'; // 在新页面打开链接
-                a.href = links;
-                a.textContent = links;
-                referencesElement.appendChild(a);
-                referencesElement.appendChild(br);
+            for (const link of json.references) { // 将引用内容上屏
+                if (link.includes("http")) { // 判断是不是URL
+                    const a: HTMLAnchorElement = document.createElement('a');
+                    const br: HTMLBRElement = document.createElement('br');
+                    a.target = '_blank'; // 在新页面打开链接
+                    a.href = link;
+                    a.classList.add('link');
+                    a.textContent = link;
+                    referencesElement.appendChild(a);
+                    referencesElement.appendChild(br);
+                } else {
+                    const p: HTMLParagraphElement = document.createElement('p');
+                    p.textContent = link;
+                    p.classList.add('link');
+                    referencesElement.appendChild(p);
+                }
             }
 
             /**

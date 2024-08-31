@@ -90,11 +90,37 @@ strong {
     transition: 0.1s opacity;
 }
 
-a {
+#nullTip {
+    display: none;
+    width: 100%;
+}
+
+#testArea {
+    display: none;
+}
+
+#references {
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
-    max-width: 200px;
+    width: 100%;
+}
+
+#resultArea {
+    margin-top: 3%;
+    display: none;
+}
+
+#backBtn {
+    display: none;
+}
+
+.link {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    margin: 0;
+    /* max-width: 200px; */
     /* 设置最大宽度 */
 }
 
@@ -143,31 +169,6 @@ a {
 
 .center {
     text-align: center;
-}
-
-#nullTip {
-    display: none;
-    width: 100%;
-}
-
-#testArea {
-    display: none;
-}
-
-#references {
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-    width: 100%;
-}
-
-#resultArea {
-    margin-top: 3%;
-    display: none;
-}
-
-#backBtn {
-    display: none;
 }
 
 .result-tips {
