@@ -86,20 +86,31 @@ function getSum(values: string[]): number {
 export function SCL90Score(groupRadio: NodeListOf<RadioGroup>): BasicScoreResult[] {
     // 计算总分&总均分
     let scl90Score: BasicScoreResult[] = [];
+
     let sum: number = 0;
+
     let positiveCount: number = 0;
+    let positiveTotal: number = 0;
+    let negativeCount: number = 0;
+
     groupRadio.forEach((group: RadioGroup) => {
-        const value = Number.parseInt(group.value, 10);
-        sum += value;
-        if (value > 0) positiveCount++;
+        const value = Number.parseInt(group.value, 10); // 当前分数
+        sum += value; // 总和添加
+        if (value >= 2) {
+            positiveCount++
+            positiveTotal += value; // 阳性得分总和
+        };
+        if (value === 1) negativeCount++;
     });
 
     const average: number = sum / groupRadio.length;
-    const positivePainLevel: number = sum / (positiveCount > 0 ? positiveCount : 1);
-    
+    const positiveAvg: number = positiveTotal / positiveCount;
+
     scl90Score.push({ name: '总分', result: sum });
     scl90Score.push({ name: '总均分', result: Number.parseInt(average.toFixed(2), 10) });
     scl90Score.push({ name: '阳性项目数', result: positiveCount });
-    scl90Score.push({ name: '阳性症状痛苦水平', result: Number.parseInt(positivePainLevel.toFixed(2), 10) });
+    scl90Score.push({ name: '阴性项目数', result: negativeCount });
+    scl90Score.push({ name: '阳性症状均分', result: Number.parseInt(positiveAvg.toFixed(2), 10) });
+
     return scl90Score;
 }
