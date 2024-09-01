@@ -251,7 +251,9 @@ document.addEventListener('testPageLoaded', async () => {
                             itemName.textContent = item.name;
                             itemScore.textContent = item.result.toString();
                             itemComment.textContent = item.range;
-                            itemComment.classList.add(item.color); // 设置文字颜色
+                            if (item.color !== null) {
+                                itemComment.classList.add(item.color); // 设置文字颜色
+                            }
 
                             itemContainer.appendChild(itemName);
                             itemContainer.appendChild(itemScore);

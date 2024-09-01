@@ -29,15 +29,16 @@ export function getScore(groupedQuestions: GroupedData, groupedCriteria: Grouped
             switch (operator) {
                 case "plus": // 求和
                     result = getSum(values);
-                    logHelper.log(`${key}的总和：${result}`);
+                    logHelper.log(`评分组 ${key} 的总和：${result}`);
                     break;
                 case "average": // 平均数
                     result = parseFloat((getSum(values) / values.length).toFixed(2)); // 确保输出结果为小数点后2位
-                    logHelper.log(`${key}的平均值：${result}`);
+                    logHelper.log(`评分组 ${key} 的平均值：${result}`);
                     break;
                 case "multiply": // 按照某个值翻倍
                     const ratio = Number.parseFloat(method[1]);
                     result = getSum(values) * ratio;
+                    logHelper.log(`评分组 ${key} 翻 ${ratio} 倍：${result}`);
                     break;
                 default:
                     logHelper.error(`未知计算方法：${operator}`);
