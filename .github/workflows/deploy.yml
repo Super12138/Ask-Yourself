@@ -40,6 +40,7 @@ jobs:
         run: npm run build
 
       - name: Upload artifact
+        if: success() && github.event_name != 'pull_request' && github.repository == 'Super12138/Ask-Yourself'
         uses: actions/upload-pages-artifact@v3.0.1
         with:
           path: dist
@@ -53,5 +54,6 @@ jobs:
     name: Deploy
     steps:
       - name: Deploy to GitHub Pages
+        if: success() && github.event_name != 'pull_request' && github.repository == 'Super12138/Ask-Yourself'
         id: deployment
         uses: actions/deploy-pages@v4.0.5
