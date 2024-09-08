@@ -7,20 +7,23 @@ import 'mdui/components/text-field.js';
 import type { Badge } from 'mdui/components/badge.js';
 import type { ListSubheader } from 'mdui/components/list-subheader.js';
 import type { List } from 'mdui/components/list.js';
+import { TextField } from 'mdui/components/text-field.js';
 import { Category, QuestionnaireList, QuestionnaireListItem, QuestionnairesList } from '../interfaces';
 import { hide, show } from '../utils/element';
-// import { TextField } from 'mdui/components/text-field.js';
 import { LogHelper } from '../utils/LogHelper';
 import { getFile } from '../utils/network';
 
 const languages: string[] = ['中文版', '英文版'];
 const logHelper = LogHelper.getInstance();
+let searchTimeout: string | number | NodeJS.Timeout | undefined;
+
 
 document.addEventListener('listPageLoaded', async () => {
+    const listContent: HTMLDivElement = document.querySelector('#listContent')!;
     const mduiList: List = document.querySelector('#questionnaireList')!;
     const loadingTip: HTMLDivElement = document.querySelector('#loadingTip')!;
-    hide(mduiList);
-    // const searchBar: TextField = document.querySelector('#searchBar')!;
+    const searchBar: TextField = document.querySelector('#searchBar')!;
+
     getFile(`https://cdn.jsdelivr.net/gh/Super12138/AY-Questionnaires-DB@main/list.json?${new Date().getTime()}`)
         .then((response: string) => {
             const json: QuestionnairesList = JSON.parse(response);
@@ -43,9 +46,9 @@ document.addEventListener('listPageLoaded', async () => {
             loadingTip.style.opacity = "0";
             setTimeout(() => {
                 hide(loadingTip);
-                mduiList.style.opacity = "1";
+                listContent.style.opacity = "1";
             }, 100)
-            show(mduiList);
+            show(listContent);
         })
         .catch((error) => {
             logHelper.error(error);
@@ -55,8 +58,27 @@ document.addEventListener('listPageLoaded', async () => {
             errorElement.innerHTML = `加载列表时出现问题：<code>${error}</code></p>`
             document.querySelector<HTMLDivElement>('#container')!.appendChild(errorElement);
             hide(loadingTip);
-            hide(mduiList);
+            hide(listContent);
         })
+
+    searchBar.addEventListener('input', () => {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(() => {
+            const listItems: NodeListOf<QuestionnaireListItem> = mduiList.querySelectorAll('mdui-list-item') as NodeListOf<QuestionnaireListItem>;
+
+            const searchValue = searchBar.value.toLowerCase();
+            const searchRegex = generateRegex(searchValue);
+
+            listItems.forEach((listItem: QuestionnaireListItem) => {
+                const text = listItem.textContent?.toLowerCase();
+                if (text && searchRegex.test(text)) {
+                    show(listItem);
+                } else {
+                    hide(listItem);
+                }
+            });
+        }, 300);
+    })
 });
 
 function makeListElement(item: QuestionnaireList, listContainer: HTMLElement) {
@@ -82,4 +104,9 @@ function makeListElement(item: QuestionnaireList, listContainer: HTMLElement) {
     }
 
     listContainer.appendChild(listItem);
+}
+
+function generateRegex(keyword: string): RegExp {
+    const regexStr = `(.*)(` + keyword.split('').join(')(.*)(') + `)(.*)`;
+    return new RegExp(regexStr, 'i');
 }
