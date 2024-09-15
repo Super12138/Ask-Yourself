@@ -14,7 +14,7 @@ import '@mdui/icons/arrow-forward--outlined.js';
 import '@mdui/icons/check--outlined.js';
 
 import { RadioGroup } from 'mdui/components/radio-group.js';
-import { ButtonType, Criterion, GroupedData, QuestionnaireFile, QuestionResult, Ranges, ScoreResult, Scoring } from '../interfaces';
+import { BasicScoreResult, ButtonType, Criterion, GroupedData, QuestionnaireFile, QuestionResult, Ranges, ScoreResult, Scoring } from '../interfaces';
 import { hide, show } from '../utils/element';
 import { LogHelper } from '../utils/LogHelper';
 import { getFile } from '../utils/network';
@@ -221,8 +221,8 @@ document.addEventListener('testPageLoaded', async () => {
 
                         const resultTbody: HTMLTableSectionElement = document.querySelector('#resultTbody')!;
 
-                        if (questionnaire === 'scl90' || questionnaire === 'scl90-eng') {
-                            SCL90Score(groupRadio).forEach((item) => {
+                        if (questionnaire.includes('scl90')) {
+                            SCL90Score(groupRadio).forEach((item: BasicScoreResult) => {
                                 const itemContainer: HTMLTableRowElement = document.createElement('tr');
                                 // 项目名称
                                 const itemName: HTMLTableCellElement = document.createElement('td');
