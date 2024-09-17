@@ -28,22 +28,24 @@ const questionnaire: string | null = url.searchParams.get("name");
 const backBtn: ButtonIcon = document.querySelector('#backBtn')!;
 const logHelper = LogHelper.getInstance();
 
-let nextButtonType: number = 1; // 1: 下一题 | 2: 开始 | 3: 提交
+enum NextButtonType {
+    START,
+    NEXT,
+    SUBMIT
+}
+
+let currentNextBtnType: NextButtonType = NextButtonType.NEXT
 let currentQuestion: number = 0; // 当前题目
 
 let questions = []; // 所有题目对象
 
 const buttonType: ButtonType[] = [
     {
-        name: '上一题',
-        icon: 'arrow-back--outlined'
-    },
-    {
-        name: '下一题',
+        name: '开始',
         icon: 'arrow-forward--outlined'
     },
     {
-        name: '开始',
+        name: '下一题',
         icon: 'arrow-forward--outlined'
     },
     {
@@ -75,7 +77,7 @@ document.addEventListener('testPageLoaded', async () => {
     }
 
     // 将“下一题”按钮设置为“开始”
-    setUpNextButton(nextBtn, 2);
+    setUpNextButton(nextBtn, NextButtonType.START);
 
     // 获取量表json
     getFile(`https://cdn.jsdelivr.net/gh/Super12138/AY-Questionnaires-DB@main/questionnaires/${questionnaire}.json?${new Date().getTime()}`)
@@ -150,21 +152,21 @@ document.addEventListener('testPageLoaded', async () => {
 
 
             nextBtn.addEventListener('click', () => {
-                switch (nextButtonType) {
-                    case 1: // “下一题”按钮
+                switch (currentNextBtnType) {
+                    case NextButtonType.NEXT: // “下一题”按钮
                         currentQuestion += 1;
                         logHelper.log(currentQuestion);
                         show(questions[currentQuestion].html);
                         hide(questions[currentQuestion - 1].html);
                         if (currentQuestion === questionnaireTotal - 1) {
-                            setUpNextButton(nextBtn, 3);
+                            setUpNextButton(nextBtn, NextButtonType.SUBMIT);
                         }
                         checkQuestionChecked(currentQuestion + 1);
                         break;
 
-                    case 2: // “开始”按钮
+                    case NextButtonType.START: // “开始”按钮
                         currentQuestion = 0;
-                        setUpNextButton(nextBtn, 1);
+                        setUpNextButton(nextBtn, NextButtonType.NEXT);
                         hide(introPart);
                         show(testArea);
                         show(previousBtn);
@@ -176,9 +178,9 @@ document.addEventListener('testPageLoaded', async () => {
                         document.title = `答题中 - ${jsonName} - 问心`;
                         break;
 
-                    case 3: // “提交”按钮
+                    case NextButtonType.SUBMIT: // “提交”按钮
                         currentQuestion = 0;
-                        nextButtonType = 2;
+                        currentNextBtnType = 2;
                         hide(testArea);
                         hide(controlArea);
                         nextBtn.disabled = true;
@@ -285,7 +287,7 @@ document.addEventListener('testPageLoaded', async () => {
                     show(questions[currentQuestion].html);
                     hide(questions[currentQuestion + 1].html);
                     logHelper.log(currentQuestion);
-                    setUpNextButton(nextBtn, 1);
+                    setUpNextButton(nextBtn, NextButtonType.NEXT);
                     previousBtn.disabled = currentQuestion === 0;
                     updateProgress();
                     checkQuestionChecked(currentQuestion + 1);
@@ -302,7 +304,7 @@ document.addEventListener('testPageLoaded', async () => {
                         break;
 
                     case 'ArrowRight':
-                        if (currentQuestion < questionnaireTotal && nextButtonType === 1) {
+                        if (currentQuestion < questionnaireTotal && currentNextBtnType === 1) {
                             nextBtn.click();
                         }
                         break;
@@ -324,14 +326,14 @@ document.addEventListener('testPageLoaded', async () => {
 /**
  * 更新“下一题”按钮的内容
  * @param nextBtn “下一题”按钮
- * @param type 1: “开始”按钮 | 2: “下一题”按钮 | 3: “提交”按钮
+ * @param NextButtonType
  */
-function setUpNextButton(nextBtn: Button, type: number) {
+function setUpNextButton(nextBtn: Button, type: NextButtonType) {
     for (let i = 0; i < buttonType.length; i++) {
         if (buttonType[i].name === buttonType[type].name) {
             nextBtn.innerHTML = `${buttonType[i].name}<mdui-icon-${buttonType[i].icon} slot="end-icon"></mdui-icon-${buttonType[i].icon}>`;
             break;
         }
     }
-    nextButtonType = type;
+    currentNextBtnType = type;
 }
