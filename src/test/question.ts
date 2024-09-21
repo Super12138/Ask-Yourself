@@ -12,9 +12,15 @@ export class Question {
      * @param options 题目选项
      * @param content 题目内容
      */
-    constructor(id: number, groupId: number, options: OptionItem[], content: string) {
+    constructor(id: number, groupId: number, options: OptionItem[], content: string, reverse: boolean = false) {
         const div: HTMLDivElement = document.createElement('div');
         const radioGroup: RadioGroup = document.createElement('mdui-radio-group');
+        let currentScoreList = options.map(option => option.score);
+
+        // 反转选项分值（改动原列表）
+        if (reverse) {
+            currentScoreList.reverse();
+        }
 
         radioGroup.name = groupId.toString();
         radioGroup.id = `questions-${id}`;
@@ -23,8 +29,8 @@ export class Question {
         // questionContent.textContent = `${id}. ${content}`;
         questionContent.textContent = content;
 
-        options.forEach((option: OptionItem) => {
-            const radio: Option = new Option(option.name, option.score);
+        options.forEach((option: OptionItem, index: number) => {
+            const radio: Option = new Option(option.name, currentScoreList[index]);
             radioGroup.appendChild(radio.html);
         });
         // 测试用 生成随机数（0-3）
@@ -33,7 +39,7 @@ export class Question {
 
         div.appendChild(questionContent);
         div.appendChild(radioGroup);
-        
+
         this.html = div;
         this.groupId = groupId;
     }

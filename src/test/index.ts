@@ -101,7 +101,7 @@ document.addEventListener('testPageLoaded', async () => {
             let generatedId: number = 0;
             for (const question of json.questions) {
                 generatedId += 1; // 遍历题目并添加到question数组
-                const questionItem: Question = new Question(generatedId, question.groupId, json.options, question.content);
+                const questionItem: Question = new Question(generatedId, question.groupId, json.options, question.content, question.reverse);
                 testArea.appendChild(questionItem.html); // 题目上屏
                 hide(questionItem.html); // 在还没有点击开始按钮前先把题目隐藏起来
                 questions.push(questionItem);
@@ -185,13 +185,18 @@ document.addEventListener('testPageLoaded', async () => {
                         hide(controlArea);
                         nextBtn.disabled = true;
 
+                        // 作答结果
                         let questionsResult: QuestionResult[] = [];
+
                         // 获取页面上所有的题目
                         const groupRadio: NodeListOf<RadioGroup> = document.querySelectorAll('mdui-radio-group')!;
                         // 遍历每个题目
                         groupRadio.forEach((group: RadioGroup) => {
                             // 将每个题目的组id和用户分数存入数组
-                            questionsResult.push({ name: group.name, value: group.value });
+                            questionsResult.push({
+                                name: group.name,
+                                value: group.value
+                            });
                         });
                         // 对题目按照groupId进行分组
                         const groupedQuestions: GroupedData = questionsResult.reduce((acc: GroupedData, current: QuestionResult) => {
@@ -202,7 +207,6 @@ document.addEventListener('testPageLoaded', async () => {
                             acc[name].push(current.value); // 将用户分数存入数组
                             return acc;
                         }, {});
-
 
                         // 获取评分组
                         const scoring: Scoring = json.scoring;
@@ -223,6 +227,7 @@ document.addEventListener('testPageLoaded', async () => {
 
                         const resultTbody: HTMLTableSectionElement = document.querySelector('#resultTbody')!;
 
+                        // SCL90 量表额外计算
                         if (questionnaire.includes('scl90')) {
                             SCL90Score(groupRadio).forEach((item: BasicScoreResult) => {
                                 const itemContainer: HTMLTableRowElement = document.createElement('tr');

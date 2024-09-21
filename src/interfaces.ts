@@ -152,6 +152,10 @@ export interface QuestionItem {
      * 题目内容（题干）
      */
     content: string;
+    /**
+     * 反向评分（可选，部分量表题目为反向评分时开启）
+     */
+    reverse?: boolean;
 }
 
 /**
