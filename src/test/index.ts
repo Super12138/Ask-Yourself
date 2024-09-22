@@ -16,9 +16,8 @@ import '@mdui/icons/check--outlined.js';
 import '@mdui/icons/tips-and-updates--outlined.js';
 
 import { RadioGroup } from 'mdui/components/radio-group.js';
-import { BasicScoreResult, ButtonType, Criterion, GroupedData, QuestionnaireFile, QuestionResult, Ranges, ScoreResult, Scoring } from '../interfaces';
+import { BasicScoreResult, ButtonType, GroupedData, QuestionnaireFile, QuestionResult, ScoreResult, Scoring } from '../interfaces';
 import { hide, show } from '../utils/element';
-import { LogHelper } from '../utils/LogHelper';
 import { getFile } from '../utils/network';
 import { showKeyboardNotice } from '../utils/notices';
 import { Question } from './question';
@@ -28,7 +27,6 @@ const appTitle: TopAppBarTitle = document.querySelector('#appTitle')!;
 const url: URL = new URL(window.location.href);
 const questionnaire: string | null = url.searchParams.get("name");
 const backBtn: ButtonIcon = document.querySelector('#backBtn')!;
-const logHelper = LogHelper.getInstance();
 
 enum NextButtonType {
     START,
@@ -82,7 +80,7 @@ document.addEventListener('testPageLoaded', async () => {
     setUpNextButton(nextBtn, NextButtonType.START);
 
     // 获取量表json
-    getFile(`https://cdn.jsdelivr.net/gh/Super12138/AY-Questionnaires-DB@main/questionnaires/${questionnaire}.json?${new Date().getTime()}`)
+    getFile(`https://cdn.jsdelivr.net/gh/Super12138/AY-Questionnaires-DB@minify/questionnaires/${questionnaire}.json?${new Date().getTime()}`)
         .then((response: string) => {
             // 加载完了显示答题页面，隐藏加载提示
             loadingTip.style.opacity = "0";
@@ -160,7 +158,6 @@ document.addEventListener('testPageLoaded', async () => {
                 switch (currentNextBtnType) {
                     case NextButtonType.NEXT: // “下一题”按钮
                         currentQuestion += 1;
-                        logHelper.log(currentQuestion);
                         show(questions[currentQuestion].html);
                         hide(questions[currentQuestion - 1].html);
                         if (currentQuestion === questionnaireTotal - 1) {
@@ -212,23 +209,8 @@ document.addEventListener('testPageLoaded', async () => {
                             acc[name].push(current.value); // 将用户分数存入数组
                             return acc;
                         }, {});
-
                         // 获取评分组
-                        const scoring: Scoring = json.scoring;
-                        // 获取评分标准
-                        const criteria: Criterion[] = scoring.criteria;
-                        // 获取分值范围
-                        const ranges: Ranges[] = scoring.ranges;
-
-                        // 获取每个评分标准，并按照groupId对其分组
-                        const groupedCriteria: GroupedData = criteria.reduce((acc: GroupedData, current: Criterion) => {
-                            const name: number = current.groupId;
-                            if (!acc[name]) {
-                                acc[name] = [];
-                            }
-                            acc[name].push(current.method);
-                            return acc;
-                        }, {});
+                        const scoring: Scoring[] = json.scoring;
 
                         const resultTbody: HTMLTableSectionElement = document.querySelector('#resultTbody')!;
 
@@ -250,7 +232,7 @@ document.addEventListener('testPageLoaded', async () => {
                         }
 
                         // 将分组后的题目和分组后的评分标准匹配起来，并计算得分
-                        const score: ScoreResult[] = getScore(groupedQuestions, groupedCriteria, ranges);
+                        const score: ScoreResult[] = getScore(groupedQuestions, scoring);
                         // 将得分上屏
                         score.forEach((item: ScoreResult) => {
                             const itemContainer: HTMLTableRowElement = document.createElement('tr');
@@ -296,7 +278,6 @@ document.addEventListener('testPageLoaded', async () => {
                     currentQuestion -= 1;
                     show(questions[currentQuestion].html);
                     hide(questions[currentQuestion + 1].html);
-                    logHelper.log(currentQuestion);
                     setUpNextButton(nextBtn, NextButtonType.NEXT);
                     previousBtn.disabled = currentQuestion === 0;
                     updateProgress();

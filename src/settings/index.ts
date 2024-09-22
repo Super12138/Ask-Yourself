@@ -26,7 +26,7 @@ document.addEventListener('settingsPageLoaded', async () => {
     const listVersion: HTMLParagraphElement = document.querySelector('#listVersion')!;
     appVersion.innerHTML = `网站版本：${VERSION_NAME}-${VARIANT}-${COMMIT_HASH} (${VERSION_CODE})`;
 
-    getFile(`https://cdn.jsdelivr.net/gh/Super12138/AY-Questionnaires-DB@main/list.json?${new Date().getTime()}`)
+    getFile(`https://cdn.jsdelivr.net/gh/Super12138/AY-Questionnaires-DB@minify/list.json?${new Date().getTime()}`)
         .then((response: string) => {
             const json: QuestionnairesList = JSON.parse(response);
 

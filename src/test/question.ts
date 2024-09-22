@@ -33,8 +33,8 @@ export class Question {
             const radio: Option = new Option(option.name, currentScoreList[index]);
             radioGroup.appendChild(radio.html);
         });
-        // 测试用 生成随机数（0-3）
-        // const randomNumber = Math.floor(Math.random() * 5);
+        // 测试用 生成随机数
+        // const randomNumber = Math.floor(Math.random() * 4);
         // radioGroup.value = randomNumber.toString();
 
         div.appendChild(questionContent);

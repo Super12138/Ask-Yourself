@@ -24,7 +24,7 @@ document.addEventListener('listPageLoaded', async () => {
     const loadingTip: HTMLDivElement = document.querySelector('#loadingTip')!;
     const searchBar: TextField = document.querySelector('#searchBar')!;
 
-    getFile(`https://cdn.jsdelivr.net/gh/Super12138/AY-Questionnaires-DB@main/list.json?${new Date().getTime()}`)
+    getFile(`https://cdn.jsdelivr.net/gh/Super12138/AY-Questionnaires-DB@minify/list.json?${new Date().getTime()}`)
         .then((response: string) => {
             const json: QuestionnairesList = JSON.parse(response);
             const catogories: Category[] = json.categories; // 获取分组

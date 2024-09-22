@@ -2,7 +2,7 @@ import type { ListItem } from 'mdui/components/list-item.js';
 
 export type Colors = 'green' | 'yellow' | 'orange' | 'red';
 export type Languages = 'zh' | 'en';
-export type Method = 'plus' | 'average' | 'multiply';
+export type Method = 'plus' | 'average' | 'multiply' | 'division';
 
 /**
  * 导航栏元素接口
@@ -122,119 +122,6 @@ export interface QuestionnairesList {
 // 量表文件类型接口
 
 /**
- * 单个选项
- */
-export interface OptionItem {
-    /**
-     * 选项名称
-     */
-    name: string;
-    /**
-     * 选项分值
-     */
-    score: number;
-}
-
-/**
- * 单个题目
- */
-export interface QuestionItem {
-    /**
-     * 题目id（可选，不作为真正题目id）
-     */
-    id?: number;
-    /**
-     * 题目组id
-     * 用于后续评分和匹配分值范围，需要完全对应
-     */
-    groupId: number;
-    /**
-     * 题目内容（题干）
-     */
-    content: string;
-    /**
-     * 反向评分（可选，部分量表题目为反向评分时开启）
-     */
-    reverse?: boolean;
-}
-
-/**
- * 单个评分标准
- */
-export interface Criterion {
-    /**
-     * 评分组组id
-     * 需与题目的题目组id完全对应
-     * @see QuestionItem.groupId
-     */
-    groupId: number;
-    /**
-     * 计算方法
-     * * `plus` 全部求和
-     * * `average` 求和后取平均分（只返回平均分）
-     * * `multiply` 求和后将结果 × 2（只返回计算后的结果）
-     */
-    method: Method | string;
-}
-/**
- * 单个分值范围
- */
-export interface Range {
-    /**
-     * 范围名称
-     */
-    name: string;
-    /**
-     * 显示文字的颜色，可选值：
-     * * green 绿色
-     * * yellow 黄色
-     * * orange 橙色
-     * * red 红色
-     * * 啥也不填就是默认颜色
-     */
-    color: Colors | string;
-    /**
-     * 范围最小值（可以取等）
-     */
-    min: number;
-    /**
-     * 范围最大值（可以取等）
-     */
-    max: number;
-}
-
-/**
- * 分值范围（带分组）
- */
-export interface Ranges {
-    /**
-     * 范围组id
-     * 需与题目的题目组id完全对应
-     * @see QuestionItem.groupId
-     */
-    groupId: number;
-    /**
-     * 组名称
-     */
-    name: string;
-    /**
-     * 单个评分范围
-     * @type {Range[]}
-     */
-    ranges: Range[];
-}
-/**
- * 评分标准组
- */
-export interface Scoring {
-    /**
-     * 单个评分标准
-     */
-    criteria: Criterion[];
-    ranges: Ranges[];
-}
-
-/**
  * 量表题目文件
  */
 export interface QuestionnaireFile {
@@ -272,10 +159,100 @@ export interface QuestionnaireFile {
     questions: QuestionItem[];
     /**
      * 评分标准
-     * @type {Scoring}
+     * @type {Scoring[]}
      */
-    scoring: Scoring;
+    scoring: Scoring[];
 }
+
+/**
+ * 单个选项
+ */
+export interface OptionItem {
+    /**
+     * 选项名称
+     */
+    name: string;
+    /**
+     * 选项分值
+     */
+    score: number;
+}
+
+/**
+ * 单个题目
+ */
+export interface QuestionItem {
+    /**
+     * 题目id（可选，不作为真正题目id）
+     */
+    id?: number;
+    /**
+     * 题目组id
+     * 用于后续评分和匹配分值范围，需要完全对应
+     */
+    groupId: number;
+    /**
+     * 题目内容（题干）
+     */
+    content: string;
+    /**
+     * 反向评分（可选，部分量表题目为反向评分时开启）
+     */
+    reverse?: boolean;
+}
+
+/**
+ * 评分标准组
+ */
+export interface Scoring {
+    /**
+     * 组Id
+     */
+    groupId: number
+    /**
+     * 该范围对外现实的名称
+     */
+    name: string
+    /**
+     * 计算方法
+     * * `plus` 全部求和
+     * * `average` 求和后取平均分（只返回平均分）
+     * * `multiply` 求和后将结果 × 2（只返回计算后的结果）
+     */
+    method: Method | string;
+    /**
+     * 分值范围
+     */
+    ranges: Range[]
+}
+
+/**
+ * 单个分值范围
+ */
+export interface Range {
+    /**
+     * 范围名称
+     */
+    name: string;
+    /**
+     * 显示文字的颜色，可选值：
+     * * green 绿色
+     * * yellow 黄色
+     * * orange 橙色
+     * * red 红色
+     * * 啥也不填就是默认颜色
+     */
+    color: Colors | string;
+    /**
+     * 范围最小值（可以取等）
+     */
+    min: number;
+    /**
+     * 范围最大值（可以取等）
+     */
+    max: number;
+}
+
 
 /**
  * 计算完成后评分接口
