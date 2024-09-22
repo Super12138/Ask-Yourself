@@ -1,4 +1,5 @@
 import 'mdui/components/button.js';
+import 'mdui/components/card.js';
 import 'mdui/components/circular-progress.js';
 import 'mdui/components/linear-progress.js';
 import 'mdui/components/radio-group.js';
@@ -12,6 +13,7 @@ import type { TopAppBarTitle } from 'mdui/components/top-app-bar-title.js';
 import '@mdui/icons/arrow-back--outlined.js';
 import '@mdui/icons/arrow-forward--outlined.js';
 import '@mdui/icons/check--outlined.js';
+import '@mdui/icons/tips-and-updates--outlined.js';
 
 import { RadioGroup } from 'mdui/components/radio-group.js';
 import { BasicScoreResult, ButtonType, Criterion, GroupedData, QuestionnaireFile, QuestionResult, Ranges, ScoreResult, Scoring } from '../interfaces';
@@ -108,7 +110,10 @@ document.addEventListener('testPageLoaded', async () => {
             }
 
             document.querySelector<HTMLParagraphElement>('#questionnaireDescription')!.textContent = json.description; // 将问卷描述设置为问卷描述
-            document.querySelector<HTMLElement>('#questionnaireTips')!.textContent = json.answerTips; // 将提示设置为问卷提示
+            document.querySelectorAll<HTMLElement>('#questionnaireTips')!.forEach((element: HTMLElement) => {
+                element.textContent = json.answerTips; // 将提示设置为问卷提示
+            });
+
             for (const link of json.references) { // 将引用内容上屏
                 if (link.includes("http")) { // 判断是不是URL
                     const a: HTMLAnchorElement = document.createElement('a');
