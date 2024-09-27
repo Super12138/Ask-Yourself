@@ -11,7 +11,6 @@ import 'mdui/components/top-app-bar-title.js';
 import 'mdui/components/top-app-bar.js';
 import 'mdui/mdui.css';
 
-import type { ButtonIcon } from 'mdui/components/button-icon.js';
 import type { LayoutMain } from 'mdui/components/layout-main.js';
 import type { NavigationBarItem } from 'mdui/components/navigation-bar-item.js';
 import type { NavigationBar } from 'mdui/components/navigation-bar.js';
@@ -19,7 +18,6 @@ import type { NavigationRailItem } from 'mdui/components/navigation-rail-item.js
 import type { NavigationRail } from 'mdui/components/navigation-rail.js';
 import type { TopAppBarTitle } from 'mdui/components/top-app-bar-title.js';
 
-import '@mdui/icons/arrow-back.js';
 import '@mdui/icons/brush--outlined.js';
 import '@mdui/icons/list--outlined.js';
 import '@mdui/icons/settings--outlined.js';
@@ -32,7 +30,6 @@ import { showDisclaimerDialog } from './utils/notices';
 const navigationRail: NavigationRail = document.querySelector('#navigationRail')!;
 const container: LayoutMain = document.querySelector('#container')!;
 const navigationBar: NavigationBar = document.querySelector('#navigationBar')!;
-const backBtn: ButtonIcon = document.querySelector('#backBtn')!;
 const appTitle: TopAppBarTitle = document.querySelector('#appTitle')!;
 
 const pages: PageItem[] = [
@@ -106,17 +103,14 @@ window.addEventListener('DOMContentLoaded', async () => {
 
                         case 'test':
                             document.dispatchEvent(new Event('testPageLoaded'));
-                            show(backBtn);
                             break;
 
                         case 'settings':
                             document.dispatchEvent(new Event('settingsPageLoaded'));
-                            show(backBtn);
                             break;
 
                         default:
                             document.dispatchEvent(new Event('listPageLoaded'));
-                            show(backBtn);
                             break;
                     }
                     observer.disconnect();
@@ -175,8 +169,3 @@ function checkWidth() {
         navigationBar.style.display = 'none';
     }
 }
-
-// 当返回键被按下时返回上一个页面
-backBtn.addEventListener('click', () => {
-    window.history.back();
-});

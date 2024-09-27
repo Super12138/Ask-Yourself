@@ -111,10 +111,6 @@ strong {
     display: none;
 }
 
-#backBtn {
-    display: none;
-}
-
 .link {
     text-overflow: ellipsis;
     overflow: hidden;

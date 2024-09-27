@@ -1,5 +1,4 @@
-import { RadioGroup } from "mdui";
-import { BasicScoreResult, GroupedData, Range, ScoreResult, Scoring } from "../interfaces";
+import { AnswerData, BasicScoreResult, GroupedData, Range, ScoreResult, Scoring } from "../interfaces";
 import { LogHelper } from "../utils/LogHelper";
 
 const logHelper = LogHelper.getInstance();
@@ -15,7 +14,7 @@ export function getScore(groupedQuestions: GroupedData, scoring: Scoring[]): Sco
     // 解构分好组的题目Id和每题分数
     Object.entries(groupedQuestions).forEach(([questionGroupId, scores]: [string, string[]]) => {
         scoring.forEach((scoreGroup: Scoring, i: number) => {
-            logHelper.log(`Scoring ${i}:`)
+            logHelper.log(`Scoring ${i}:`);
             const groupId: number = scoreGroup.groupId;
             if (groupId.toString() !== questionGroupId) return;
 
@@ -62,8 +61,6 @@ export function getScore(groupedQuestions: GroupedData, scoring: Scoring[]): Sco
                         range: range.name,
                         color: range.color
                     });
-                } else {
-                    logHelper.log("这个不是计算后得分应在的范围")
                 }
             });
         });
@@ -92,7 +89,7 @@ function getSum(scores: string[]): number {
  * @param groupRadio 所有题目
  * @returns 
  */
-export function SCL90Score(groupRadio: NodeListOf<RadioGroup>): BasicScoreResult[] {
+export function SCL90Score(answerData: AnswerData[]): BasicScoreResult[] {
     // 计算总分&总均分
     let scl90Score: BasicScoreResult[] = [];
 
@@ -102,17 +99,17 @@ export function SCL90Score(groupRadio: NodeListOf<RadioGroup>): BasicScoreResult
     let positiveTotal: number = 0;
     let negativeCount: number = 0;
 
-    groupRadio.forEach((group: RadioGroup) => {
-        const value = Number.parseInt(group.value, 10); // 当前分数
-        sum += value; // 总和添加
-        if (value >= 2) {
+    answerData.forEach((group: AnswerData) => {
+        const score = group.score; // 当前分数
+        sum += score; // 总和添加
+        if (score >= 2) {
             positiveCount++
-            positiveTotal += value; // 阳性得分总和
+            positiveTotal += score; // 阳性得分总和
         };
-        if (value === 1) negativeCount++;
+        if (score === 1) negativeCount++;
     });
 
-    const average: number = sum / groupRadio.length;
+    const average: number = sum / answerData.length;
     const positiveAvg: number = positiveTotal / positiveCount;
 
     scl90Score.push({ name: '总分', result: sum });

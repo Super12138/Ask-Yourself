@@ -275,15 +275,15 @@ export interface Score {
 /**
  * 得分结果存储类
  */
-export interface QuestionResult {
+export interface AnswerData {
     /**
      * 题目组id
      */
-    name: string;
+    groupId: number;
     /**
      * 该题得分
      */
-    value: string;
+    score: number;
 }
 
 /**
@@ -323,5 +323,5 @@ export interface BasicScoreResult {
  * 分好组的数据
  */
 export interface GroupedData {
-    [key: string]: string[];
+    [groupId: number]: number[];
 }

@@ -5,7 +5,6 @@ import 'mdui/components/linear-progress.js';
 import 'mdui/components/radio-group.js';
 import 'mdui/components/radio.js';
 
-import type { ButtonIcon } from 'mdui/components/button-icon.js';
 import type { Button } from 'mdui/components/button.js';
 import type { LinearProgress } from 'mdui/components/linear-progress.js';
 import type { TopAppBarTitle } from 'mdui/components/top-app-bar-title.js';
@@ -15,8 +14,7 @@ import '@mdui/icons/arrow-forward--outlined.js';
 import '@mdui/icons/check--outlined.js';
 import '@mdui/icons/tips-and-updates--outlined.js';
 
-import { RadioGroup } from 'mdui/components/radio-group.js';
-import { BasicScoreResult, ButtonType, GroupedData, QuestionnaireFile, QuestionResult, ScoreResult, Scoring } from '../interfaces';
+import { AnswerData, BasicScoreResult, ButtonType, GroupedData, QuestionnaireFile, ScoreResult, Scoring } from '../interfaces';
 import { hide, show } from '../utils/element';
 import { getFile } from '../utils/network';
 import { showKeyboardNotice } from '../utils/notices';
@@ -26,7 +24,6 @@ import { getScore, SCL90Score } from './scoring';
 const appTitle: TopAppBarTitle = document.querySelector('#appTitle')!;
 const url: URL = new URL(window.location.href);
 const questionnaire: string | null = url.searchParams.get("name");
-const backBtn: ButtonIcon = document.querySelector('#backBtn')!;
 
 enum NextButtonType {
     START,
@@ -37,7 +34,7 @@ enum NextButtonType {
 let currentNextBtnType: NextButtonType = NextButtonType.NEXT
 let currentQuestion: number = 0; // 当前题目
 
-let questions = []; // 所有题目对象
+let questions: Question[] = []; // 所有题目对象
 
 const buttonType: ButtonType[] = [
     {
@@ -140,16 +137,16 @@ document.addEventListener('testPageLoaded', async () => {
             };
 
             function checkQuestionChecked(id: number) {
-                const radioGroup: RadioGroup = document.querySelector(`#questions-${id}`)!;
-                if (radioGroup.value) {
+                const checkQuestion = questions[id].html.querySelector('mdui-radio-group')!;
+                if (checkQuestion.value) {
                     nextBtn.disabled = false;
                 } else {
                     nextBtn.disabled = true;
                     const radioChangeListener = () => {
                         nextBtn.disabled = false;
-                        radioGroup.removeEventListener('change', radioChangeListener);
+                        checkQuestion.removeEventListener('change', radioChangeListener);
                     };
-                    radioGroup.addEventListener('change', radioChangeListener);
+                    checkQuestion.addEventListener('change', radioChangeListener);
                 }
             }
 
@@ -175,7 +172,6 @@ document.addEventListener('testPageLoaded', async () => {
                         show(questions[currentQuestion].html);
                         checkQuestionChecked(currentQuestion + 1); // 检查是否有一个选项被选中
                         showKeyboardNotice(); // 键盘操作提示
-                        backBtn.disabled = true;
 
                         document.title = `答题中 - ${jsonName} - 问心`;
                         break;
@@ -188,25 +184,24 @@ document.addEventListener('testPageLoaded', async () => {
                         nextBtn.disabled = true;
 
                         // 作答结果
-                        let questionsResult: QuestionResult[] = [];
+                        let userAnswerData: AnswerData[] = [];
 
-                        // 获取页面上所有的题目
-                        const groupRadio: NodeListOf<RadioGroup> = document.querySelectorAll('mdui-radio-group')!;
                         // 遍历每个题目
-                        groupRadio.forEach((group: RadioGroup) => {
-                            // 将每个题目的组id和用户分数存入数组
-                            questionsResult.push({
-                                name: group.name,
-                                value: group.value
+                        questions.forEach((question: Question) => {
+                            const questionElement = question.html.querySelector("mdui-radio-group")!;
+                            userAnswerData.push({
+                                groupId: question.groupId,
+                                score: Number.parseInt(questionElement.value, 10)
                             });
                         });
+
                         // 对题目按照groupId进行分组
-                        const groupedQuestions: GroupedData = questionsResult.reduce((acc: GroupedData, current: QuestionResult) => {
-                            const name: string = current.name;
-                            if (!acc[name]) {
-                                acc[name] = [];
+                        const groupedQuestions: GroupedData = userAnswerData.reduce((acc: GroupedData, current: AnswerData) => {
+                            const groupId: number = current.groupId;
+                            if (!acc[groupId]) {
+                                acc[groupId] = [];
                             }
-                            acc[name].push(current.value); // 将用户分数存入数组
+                            acc[groupId].push(current.score); // 将用户分数存入数组
                             return acc;
                         }, {});
                         // 获取评分组
@@ -216,7 +211,7 @@ document.addEventListener('testPageLoaded', async () => {
 
                         // SCL90 量表额外计算
                         if (questionnaire.includes('scl90')) {
-                            SCL90Score(groupRadio).forEach((item: BasicScoreResult) => {
+                            SCL90Score(userAnswerData).forEach((item: BasicScoreResult) => {
                                 const itemContainer: HTMLTableRowElement = document.createElement('tr');
                                 // 项目名称
                                 const itemName: HTMLTableCellElement = document.createElement('td');
@@ -261,7 +256,6 @@ document.addEventListener('testPageLoaded', async () => {
                         // 展示结果区域
                         show(resultArea);
                         document.title = `测试结果 - ${jsonName} - 问心`;
-                        backBtn.disabled = false;
                         break;
 
                     default:
@@ -317,7 +311,7 @@ document.addEventListener('testPageLoaded', async () => {
 /**
  * 更新“下一题”按钮的内容
  * @param nextBtn “下一题”按钮
- * @param NextButtonType
+ * @param NextButtonType 按钮类型
  */
 function setUpNextButton(nextBtn: Button, type: NextButtonType) {
     for (let i = 0; i < buttonType.length; i++) {
