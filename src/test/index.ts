@@ -7,6 +7,7 @@ import 'mdui/components/radio.js';
 
 import type { Button } from 'mdui/components/button.js';
 import type { LinearProgress } from 'mdui/components/linear-progress.js';
+import type { RadioGroup } from 'mdui/components/radio-group.js';
 import type { TopAppBarTitle } from 'mdui/components/top-app-bar-title.js';
 
 import '@mdui/icons/arrow-back--outlined.js';
@@ -137,16 +138,16 @@ document.addEventListener('testPageLoaded', async () => {
             };
 
             function checkQuestionChecked(id: number) {
-                const checkQuestion = questions[id].html.querySelector('mdui-radio-group')!;
-                if (checkQuestion.value) {
+                const radioGroup: RadioGroup = document.querySelector(`#questions-${id}`)!;
+                if (radioGroup.value) {
                     nextBtn.disabled = false;
                 } else {
                     nextBtn.disabled = true;
                     const radioChangeListener = () => {
                         nextBtn.disabled = false;
-                        checkQuestion.removeEventListener('change', radioChangeListener);
+                        radioGroup.removeEventListener('change', radioChangeListener);
                     };
-                    checkQuestion.addEventListener('change', radioChangeListener);
+                    radioGroup.addEventListener('change', radioChangeListener);
                 }
             }
 
