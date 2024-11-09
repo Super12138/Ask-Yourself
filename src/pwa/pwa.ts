@@ -14,7 +14,7 @@ export function initPWA() {
             onOfflineReady() {
                 snackbar({
                     message: "问心（不包含试题部分）已准备好在离线环境下运行"
-                })
+                });
             },
             onNeedRefresh() {
                 snackbar({

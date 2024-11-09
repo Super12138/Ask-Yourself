@@ -10,34 +10,6 @@ body.ready {
     transition: 0.15s opacity;
 }
 
-/* 充满页面 */
-mdui-layout {
-    height: calc(100vh - 17px);
-}
-
-/* 题库列表自适应宽度 */
-mdui-list {
-    width: 100%;
-}
-
-mdui-list-subheader {
-    width: 100%;
-}
-
-mdui-list-item {
-    flex: 0 0 25%;
-    /* display: flex; */
-    /* align-items: center; */
-}
-
-mdui-badge {
-    margin-left: 5px;
-}
-
-mdui-radio {
-    width: 100%;
-}
-
 h5 {
     line-height: var(--mdui-typescale-headline-medium-line-height);
     font-size: var(--mdui-typescale-headline-medium-size);
@@ -56,6 +28,54 @@ strong {
     line-height: var(--mdui-typescale-body-large-line-height);
     font-size: var(--mdui-typescale-body-large-size);
     letter-spacing: var(--mdui-typescale-body-large-tracking);
+}
+
+a:link {
+    color: rgb(var(--mdui-color-primary));
+    text-decoration: none;
+}
+
+a:visited {
+    color: rgb(var(--mdui-color-tertiary));
+    text-decoration: none;
+}
+
+a:hover {
+    color: rgb(var(--mdui-color-on-primary-container));
+    text-decoration: none;
+}
+
+a:active {
+    color: rgb(var(--mdui-color-tertiary));
+    text-decoration: none;
+}
+
+/* 题库列表自适应宽度 */
+mdui-list {
+    width: 100%;
+}
+
+mdui-list-subheader {
+    width: 100%;
+}
+
+/* 充满页面 */
+mdui-layout {
+    height: calc(100vh - 17px);
+}
+
+mdui-list-item {
+    flex: 0 0 25%;
+    /* display: flex; */
+    /* align-items: center; */
+}
+
+mdui-badge {
+    margin-left: 5px;
+}
+
+mdui-radio {
+    width: 100%;
 }
 
 .items-container {
