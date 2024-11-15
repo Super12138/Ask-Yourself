@@ -50,6 +50,19 @@ a:active {
     text-decoration: none;
 }
 
+/* 选中文本高亮颜色 */
+::selection {
+    background: rgb(var(--mdui-color-secondary-container)) !important;
+}
+
+::-moz-selection {
+    background: rgb(var(--mdui-color-secondary-container)) !important;
+}
+
+::-webkit-selection {
+    background: rgb(var(--mdui-color-secondary-container)) !important;
+}
+
 /* 题库列表自适应宽度 */
 mdui-list {
     width: 100%;
@@ -81,54 +94,6 @@ mdui-radio {
 .items-container {
     display: flex;
     flex-wrap: wrap;
-}
-
-/* 答题页面样式 */
-#testContainer {
-    margin: 8px;
-    display: none;
-    opacity: 0;
-    transition: 0.1s opacity;
-    /* 
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh; */
-    /* 或者设置为具体的高度 */
-}
-
-#controlArea {
-    margin: 5% 2% 22% 2%;
-}
-
-#loadingTip {
-    opacity: 1;
-    transition: 0.1s opacity;
-}
-
-#listContent {
-    display: none;
-    opacity: 0;
-    transition: 0.1s opacity;
-}
-
-#nullTip {
-    display: none;
-    width: 100%;
-}
-
-#testArea {
-    display: none;
-}
-
-#references {
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-    width: 100%;
-}
-
-#resultArea {
-    display: none;
 }
 
 .link {
@@ -214,6 +179,54 @@ mdui-radio {
 
 .green {
     color: #1B5E20;
+}
+
+/* 答题页面样式 */
+#testContainer {
+    margin: 8px;
+    display: none;
+    opacity: 0;
+    transition: 0.1s opacity;
+    /* 
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; */
+    /* 或者设置为具体的高度 */
+}
+
+#controlArea {
+    margin: 5% 2% 22% 2%;
+}
+
+#loadingTip {
+    opacity: 1;
+    transition: 0.1s opacity;
+}
+
+#listContent {
+    display: none;
+    opacity: 0;
+    transition: 0.1s opacity;
+}
+
+#nullTip {
+    display: none;
+    width: 100%;
+}
+
+#testArea {
+    display: none;
+}
+
+#references {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 100%;
+}
+
+#resultArea {
+    display: none;
 }
 
 @media (prefers-color-scheme: dark) {

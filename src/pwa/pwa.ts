@@ -2,11 +2,11 @@ import { snackbar } from "mdui/functions/snackbar.js";
 import { registerSW } from 'virtual:pwa-register';
 
 export function initPWA() {
-    let refreshSW: (reloadPage?: boolean) => Promise<void> | undefined
+    let refreshSW: (reloadPage?: boolean) => Promise<void> | undefined;
 
-    let swActivated = false
+    let swActivated = false;
     // 每小时检查一次更新
-    const period = 60 * 60 * 1000
+    const period = 60 * 60 * 1000;
 
     window.addEventListener('load', () => {
         refreshSW = registerSW({
@@ -27,7 +27,7 @@ export function initPWA() {
                 });
             },
             onRegisteredSW(swUrl, r) {
-                if (period <= 0) return
+                if (period <= 0) return;
                 if (r?.active?.state === 'activated') {
                     swActivated = true
                     registerPeriodicSync(period, swUrl, r)
@@ -69,5 +69,5 @@ function registerPeriodicSync(period: number, swUrl: string, r: ServiceWorkerReg
 
         if (resp?.status === 200)
             await r.update()
-    }, period)
+    }, period);
 }
