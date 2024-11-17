@@ -26,6 +26,8 @@ import { initPWA } from './pwa/pwa';
 import { hide, show } from './utils/element';
 import { getFile } from './utils/network';
 import { showDisclaimerDialog } from './utils/notices';
+import { switchDarkMode } from './settings';
+import { getStorageItem } from './utils/localstorage';
 
 const navigationRail: NavigationRail = document.querySelector('#navigationRail')!;
 const container: LayoutMain = document.querySelector('#container')!;
@@ -121,7 +123,9 @@ window.addEventListener('DOMContentLoaded', async () => {
 
     // 启动观察
     observer.observe(container, { childList: true, subtree: true });
-
+    // 深色模式
+    const darkMode = getStorageItem('darkMode');
+    if (darkMode !== null) switchDarkMode(darkMode);
     // 将不同页面的内容上屏
     container.innerHTML = pageData;
     // 展示使用提示对话框

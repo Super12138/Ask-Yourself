@@ -1,4 +1,12 @@
 <mdui-list>
+    <mdui-list-item headline="深色模式">
+        <mdui-icon-mode-night--outlined slot="icon"></mdui-icon-mode-night--outlined>
+        <mdui-segmented-button-group selects="single" slot="end-icon" value="auto" id="darkMode">
+            <mdui-segmented-button value="auto">跟随系统设置</mdui-segmented-button>
+            <mdui-segmented-button value="light">关闭</mdui-segmented-button>
+            <mdui-segmented-button value="dark">开启</mdui-segmented-button>
+        </mdui-segmented-button-group>
+    </mdui-list-item>
     <mdui-list-item id="clearAllDataItem" headline="清除全部数据">
         <mdui-icon-delete--outlined slot="icon"></mdui-icon-delete--outlined>
     </mdui-list-item>
