@@ -251,7 +251,7 @@ document.addEventListener('testPageLoaded', async () => {
                         });
 
                         if (json.resultTips !== undefined) {
-                            document.querySelector<HTMLElement>('.result-tips')!.innerHTML = `结果解读说明（仅供参考，不作为诊断依据）<br>${json.resultTips}`;
+                            document.querySelector<HTMLElement>('.result-tips')!.innerHTML = `结果解读说明（仅供参考，不作为诊断依据）<br><mdui-divider></mdui-divider>${json.resultTips}`;
                         }
                         // 展示结果区域
                         show(resultArea);

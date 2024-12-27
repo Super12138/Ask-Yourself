@@ -9,4 +9,4 @@ export default defineConfig({
     },
     preset,
     images: ['public/icon-512.png'],
-})
+});
