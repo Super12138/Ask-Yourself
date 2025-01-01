@@ -3,7 +3,7 @@ import { ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 
 const route = useRoute();
-const name = ref();
+const name = ref(route.query.name);
 
 watch(() => route.query.name, (newName) => {
     name.value = newName;

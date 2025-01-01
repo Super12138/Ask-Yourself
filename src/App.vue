@@ -1,17 +1,21 @@
 <script setup lang="ts">
-import { RouterView, useRoute, useRouter } from 'vue-router';
-import PWABadge from './components/PWABadge.vue';
+// 导入
+import { computed, onMounted, ref } from 'vue';
+import { RouterView, useRoute } from 'vue-router';
 
+// 接口
+import type { PageItem } from './interfaces';
+
+// 组件
+import NavBar from './components/NavigationBar.vue';
+import NavRail from './components/NavigationRail.vue';
+import PWABadge from './components/PWABadge.vue';
+import TopAppBar from './components/TopAppBar.vue';
+
+// MDUI 组件
 import 'mdui/components/layout-item.js';
 import 'mdui/components/layout-main.js';
 import 'mdui/components/layout.js';
-
-import { computed, onMounted, ref } from 'vue';
-import type { PageItem } from './interfaces';
-
-import TopAppBar from './components/TopAppBar.vue';
-import NavBar from './components/NavigationBar.vue';
-import NavRail from './components/NavigationRail.vue';
 
 const router = useRoute();
 const currentPage = computed(() => router.name?.toString() || 'list');
@@ -53,7 +57,7 @@ onMounted(() => {
     <mdui-layout-main id="container">
       <RouterView />
     </mdui-layout-main>
-    
+
     <TopAppBar />
   </mdui-layout>
   <PWABadge />
@@ -63,4 +67,8 @@ onMounted(() => {
 mdui-layout {
   height: 100vh;
 }
+
+/* mdui-layout-main {
+  margin: 8px;
+} */
 </style>

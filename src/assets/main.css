@@ -1,5 +1,5 @@
 body {
-  height: calc(100vh - 16px);
+  height: 100vh;
   margin: 0;
   font-family:
     Inter,
@@ -17,4 +17,15 @@ body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* Transition 组件淡入淡出动画（Fade） */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.15s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }
