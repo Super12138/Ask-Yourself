@@ -1,11 +1,18 @@
 <script setup lang="ts">
 import 'mdui/components/circular-progress.js';
+
+defineProps({
+    showLoadingTip: {
+        type: Boolean,
+        default: true,
+    },
+});
 </script>
 
 <template>
     <div>
-        <mdui-circular-progress></mdui-circular-progress>
-        <slot></slot>
+        <mdui-circular-progress v-if="showLoadingTip"></mdui-circular-progress>
+        <slot><p>加载中，请稍后</p></slot>
     </div>
 </template>
 

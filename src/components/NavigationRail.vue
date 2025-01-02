@@ -35,7 +35,7 @@ defineProps({
 </template>
 
 <style lang="css" scoped>
-mdui-navigation-rail{
-    background-color: rgb(var(--mdui-color-surface-container-low)) !important;
+mdui-navigation-rail {
+    background-color: rgb(var(--mdui-color-surface-container-low));
 }
 </style>
