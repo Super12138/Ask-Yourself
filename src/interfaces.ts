@@ -68,7 +68,7 @@ export interface QuestionnaireListItem extends ListItem {
 /**
  * 量表列表接口
  */
-export interface QuestionnaireList {
+export interface QuestionnaireItem {
     /**
      * 量表介绍（用于向用户展示）
      */
@@ -101,13 +101,13 @@ export interface Category {
     /**
      * 量表
      */
-    questionnaires: QuestionnaireList[];
+    questionnaires: QuestionnaireItem[];
 }
 
 /**
  * 量表列表接口
  */
-export interface QuestionnairesList {
+export interface QuestionnaireList {
     /**
      * 量表列表版本
      */

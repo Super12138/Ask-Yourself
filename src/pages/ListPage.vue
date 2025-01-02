@@ -1,21 +1,17 @@
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue';
-import { RouterLink } from 'vue-router';
 
-import type { Category, QuestionnairesList } from '@/interfaces';
+import type { Category, QuestionnaireList } from '@/interfaces';
 
 import LoadingTip from '@/components/LoadingTip.vue';
+import QuestionnaireCategory from '@/components/list/QuestionnaireCategory.vue';
 
-// MDUI 组件
 import 'mdui/components/badge.js';
 import 'mdui/components/button.js';
-import 'mdui/components/list-item.js';
-import 'mdui/components/list-subheader.js';
 import 'mdui/components/list.js';
 import 'mdui/components/text-field.js';
 
 const showContent = ref(false);
-const languages = ref(['中文版', '英文版']);
 const categories = ref<Category[]>([]);
 const filteredCategories = ref<Category[]>([]);
 const searchQuery = ref('');
@@ -31,7 +27,7 @@ onMounted(() => {
     )
         .then(response => response.text())
         .then((data: string) => {
-            const json: QuestionnairesList = JSON.parse(data);
+            const json: QuestionnaireList = JSON.parse(data);
             categories.value = json.categories;
             filteredCategories.value = json.categories;
             showContent.value = true;
@@ -71,21 +67,11 @@ function generateRegex(keyword: string): RegExp {
         <div v-if="showContent">
             <mdui-text-field clearable label="输入你想搜索的量表（支持模糊搜索）" v-model="searchQuery"></mdui-text-field>
             <mdui-list>
-                <div v-for="category in filteredCategories">
-                    <mdui-list-subheader>{{ category.name }}</mdui-list-subheader>
-
-                    <RouterLink v-for="questionnaire in category.questionnaires"
-                        :to="`/test?name=${questionnaire.value}`" custom v-slot="{ navigate }">
-                        <mdui-list-item :description="questionnaire.lang === 'en' ? languages[1] : languages[0]"
-                            :key="questionnaire.value" @click="navigate" alignment="center">
-                            {{ questionnaire.name }}<mdui-badge v-if="questionnaire.new" variant="large">新</mdui-badge>
-                        </mdui-list-item>
-                    </RouterLink>
-                </div>
+                <QuestionnaireCategory :categories="filteredCategories" />
             </mdui-list>
         </div>
 
-        <LoadingTip v-else="showContent">
+        <LoadingTip v-else>
             <p>题库正在加载，很快就好</p>
             <mdui-button @click="showContent = !showContent">强制切换内容</mdui-button>
         </LoadingTip>
