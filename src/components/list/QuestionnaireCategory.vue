@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Category } from '@/interfaces';
+import type { Category } from '@/interfaces/QuestionnaireList';
 import type { PropType } from 'vue';
 
 import QuestionnaireItem from './QuestionnaireItem.vue';

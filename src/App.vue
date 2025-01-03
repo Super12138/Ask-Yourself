@@ -4,7 +4,7 @@ import { computed, onMounted, ref } from 'vue';
 import { RouterView, useRoute } from 'vue-router';
 
 // 接口
-import type { PageItem } from './interfaces';
+import type { PageItem } from './interfaces/Interfaces';
 
 // 组件
 import NavBar from './components/NavigationBar.vue';

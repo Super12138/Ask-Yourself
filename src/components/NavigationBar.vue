@@ -2,7 +2,7 @@
 import type { PropType } from 'vue';
 import { RouterLink } from 'vue-router';
 
-import type { PageItem } from '../interfaces';
+import type { PageItem } from '@/interfaces/Interfaces';
 
 import 'mdui/components/navigation-bar-item.js';
 import 'mdui/components/navigation-bar.js';

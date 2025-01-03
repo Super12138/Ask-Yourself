@@ -2,7 +2,7 @@
 import { ref, type PropType } from 'vue';
 import { RouterLink } from 'vue-router';
 
-import type { QuestionnaireItem } from '@/interfaces';
+import type { QuestionnaireItem } from '@/interfaces/QuestionnaireList';
 
 import 'mdui/components/list-item.js';
 

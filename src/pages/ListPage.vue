@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue';
 
-import type { Category, QuestionnaireList } from '@/interfaces';
+import type { Category, QuestionnaireList } from '@/interfaces/QuestionnaireList';
 
 import LoadingTip from '@/components/LoadingTip.vue';
 import QuestionnaireCategory from '@/components/list/QuestionnaireCategory.vue';
