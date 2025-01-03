@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import CenterItem from './CenterItem.vue';
+
 import 'mdui/components/circular-progress.js';
 
 defineProps({
@@ -10,23 +12,12 @@ defineProps({
 </script>
 
 <template>
-    <div>
-        <mdui-circular-progress v-if="showLoadingTip"></mdui-circular-progress>
-        <slot><p>加载中，请稍后</p></slot>
-    </div>
+    <CenterItem>
+        <template #icon>
+            <mdui-circular-progress v-if="showLoadingTip"></mdui-circular-progress>
+        </template>
+        <template #content>
+            <slot><p>加载中，请稍后</p></slot>
+        </template>
+    </CenterItem>
 </template>
-
-<style lang="css" scoped>
-div {
-    display: flex;
-    flex-direction: column;
-    /* 垂直排列子元素 */
-    align-items: center;
-    /* 水平居中 */
-    justify-content: center;
-    /* 垂直居中 */
-    height: 100%;
-    text-align: center;
-    /* 让文本居中对齐 */
-}
-</style>
