@@ -29,3 +29,29 @@ body {
 .fade-leave-to {
   opacity: 0;
 }
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+strong,
+span {
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
+  line-height: var(--mdui-typescale-headline-large-line-height);
+  font-size: var(--mdui-typescale-headline-large-size);
+  letter-spacing: var(--mdui-typescale-headline-large-tracking);
+  font-weight: var(--mdui-typescale-headline-large-weight);
+}
+
+h2 {
+  line-height: var(--mdui-typescale-headline-medium-line-height);
+  font-size: var(--mdui-typescale-headline-medium-size);
+  letter-spacing: var(--mdui-typescale-headline-medium-tracking);
+  font-weight: var(--mdui-typescale-headline-medium-weight);
+}
