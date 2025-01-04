@@ -1,10 +1,14 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n';
 import { RouterLink } from 'vue-router';
+
 import CenterItem from '@/components/CenterItem.vue';
 
 import 'mdui/components/button.js';
 
 import '@mdui/icons/report-gmailerrorred--outlined.js';
+
+const { t } = useI18n();
 </script>
 
 <template>
@@ -13,10 +17,10 @@ import '@mdui/icons/report-gmailerrorred--outlined.js';
             <mdui-icon-report-gmailerrorred--outlined></mdui-icon-report-gmailerrorred--outlined>
         </template>
         <template #content>
-            <h2>未找到页面</h2>
-            <p>别担心，点击下方按钮回到题库页面吧</p>
+            <h2>{{ t("pageNotFound.title") }}</h2>
+            <p>{{ t("pageNotFound.backTip")}}</p>
             <RouterLink to="/" custom v-slot="{ navigate }">
-                <mdui-button variant="tonal" @click="navigate">回到题库</mdui-button>
+                <mdui-button variant="tonal" @click="navigate">{{ t("pageNotFound.backBtn") }}</mdui-button>
             </RouterLink>
         </template>
     </CenterItem>

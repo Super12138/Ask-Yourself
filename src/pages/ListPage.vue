@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 import type { Category, QuestionnaireList } from '@/interfaces/QuestionnaireList';
 
 import LoadingTip from '@/components/LoadingTip.vue';
+import FadeOutInTransition from '@/components/transitions/FadeOutInTransition.vue';
 import QuestionnaireCategory from '@/components/list/QuestionnaireCategory.vue';
 
 import 'mdui/components/badge.js';
@@ -11,6 +13,9 @@ import 'mdui/components/button.js';
 import 'mdui/components/list.js';
 import 'mdui/components/text-field.js';
 
+import '@mdui/icons/search--outlined.js';
+
+const { t } = useI18n();
 const showContent = ref(false);
 const categories = ref<Category[]>([]);
 const filteredCategories = ref<Category[]>([]);
@@ -63,17 +68,26 @@ function generateRegex(keyword: string): RegExp {
 </script>
 
 <template>
-    <Transition name="fade" mode="out-in">
+    <FadeOutInTransition>
         <div v-if="showContent">
-            <mdui-text-field clearable label="输入你想搜索的量表（支持模糊搜索）" v-model="searchQuery"></mdui-text-field>
+            <mdui-text-field clearable :label="t('list.searchBarLabel')" v-model="searchQuery">
+                <mdui-icon-search--outlined slot="icon"></mdui-icon-search--outlined>
+            </mdui-text-field>
             <mdui-list>
                 <QuestionnaireCategory :categories="filteredCategories" />
             </mdui-list>
         </div>
 
         <LoadingTip v-else>
-            <p>题库正在加载，很快就好</p>
+            <p>{{ t("tips.loadingTipList") }}</p>
             <mdui-button @click="showContent = !showContent">强制切换内容</mdui-button>
         </LoadingTip>
-    </Transition>
+    </FadeOutInTransition>
 </template>
+
+<style lang="css" scoped>
+mdui-text-field {
+    width: calc(100% - 16px);
+    margin: 8px 8px 0 8px;
+}
+</style>

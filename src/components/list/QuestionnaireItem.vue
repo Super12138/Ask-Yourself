@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { ref, type PropType } from 'vue';
+import { type PropType } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { RouterLink } from 'vue-router';
 
 import type { QuestionnaireItem } from '@/interfaces/QuestionnaireList';
@@ -11,7 +12,7 @@ import 'mdui/components/list-item.js';
 //     languages: string[];
 // }
 
-const languages = ref(['中文版', '英文版']);
+const { t } = useI18n();
 
 defineProps({
     questionnaire: {
@@ -23,7 +24,7 @@ defineProps({
 
 <template>
     <RouterLink :to="`/test?name=${questionnaire.value}`" custom v-slot="{ navigate }">
-        <mdui-list-item :description="questionnaire.lang === 'en' ? languages[1] : languages[0]" @click="navigate"
+        <mdui-list-item :description="questionnaire.lang === 'en' ? t('list.englishVer') : t('list.chineseVer')" @click="navigate"
             alignment="center">
             {{ questionnaire.name }}<mdui-badge v-if="questionnaire.new" variant="large">新</mdui-badge>
         </mdui-list-item>

@@ -1,7 +1,11 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n';
+
 import CenterItem from './CenterItem.vue';
 
 import 'mdui/components/circular-progress.js';
+
+const { t } = useI18n();
 
 defineProps({
     showLoadingTip: {
@@ -17,7 +21,9 @@ defineProps({
             <mdui-circular-progress v-if="showLoadingTip"></mdui-circular-progress>
         </template>
         <template #content>
-            <slot><p>加载中，请稍后</p></slot>
+            <slot>
+                <p>{{ t("tips.loadingTipDefault") }}</p>
+            </slot>
         </template>
     </CenterItem>
 </template>
