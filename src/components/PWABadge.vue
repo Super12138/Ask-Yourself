@@ -70,3 +70,5 @@ watch(needRefresh, (newValue) => {
     }
 }); // TODO: 只触发一次，节省性能
 </script>
+
+<template></template>
