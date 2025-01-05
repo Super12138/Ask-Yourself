@@ -2,7 +2,7 @@
 import { useI18n } from 'vue-i18n';
 import { RouterLink } from 'vue-router';
 
-import CenterItem from '@/components/CenterItem.vue';
+import CenterItem from '@/components/shared/CenterItem.vue';
 
 import 'mdui/components/button.js';
 

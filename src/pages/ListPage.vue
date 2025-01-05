@@ -5,7 +5,7 @@ import { useI18n } from 'vue-i18n';
 import type { Category, QuestionnaireList } from '@/interfaces/QuestionnaireList';
 
 import QuestionnaireCategory from '@/components/list/QuestionnaireCategory.vue';
-import LoadingTip from '@/components/LoadingTip.vue';
+import LoadingTip from '@/components/shared/LoadingTip.vue';
 import FadeOutInTransition from '@/components/transitions/FadeOutInTransition.vue';
 
 import 'mdui/components/badge.js';

@@ -8,10 +8,10 @@ import { RouterView, useRoute } from 'vue-router';
 import type { PageItem } from './interfaces/Interfaces';
 
 // 组件
-import NavBar from './components/NavigationBar.vue';
-import NavRail from './components/NavigationRail.vue';
-import PWABadge from './components/PWABadge.vue';
-import TopAppBar from './components/TopAppBar.vue';
+import NavBar from './components/shared/NavigationBar.vue';
+import NavRail from './components/shared/NavigationRail.vue';
+import PWABadge from './components/shared/PWABadge.vue';
+import TopAppBar from './components/shared/TopAppBar.vue';
 
 // MDUI 组件
 import 'mdui/components/layout-item.js';
