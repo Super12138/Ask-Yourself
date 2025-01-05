@@ -30,26 +30,29 @@ const filteredCategories = ref<Category[]>([]);
 const searchQuery = ref('');
 
 // 加载题库
-onMounted(() => {
-    fetch(
-        `https://cdn.jsdelivr.net/gh/Super12138/AY-Questionnaires-DB@minify/list.json?${new Date().getTime()}`,
-        {
-            cache: 'no-cache',
-            method: 'GET',
+onMounted(async () => {
+    try {
+        const response = await fetch(
+            `https://cdn.jsdelivr.net/gh/Super12138/AY-Questionnaires-DB@minify/list.json?${new Date().getTime()}`,
+            {
+                cache: 'no-cache',
+                method: 'GET',
+            }
+        );
+        if (!response.ok) {
+            throw new Error(`获取量表列表时请求失败（${response.status}-${response.statusText}）`);
         }
-    )
-        .then(response => response.text())
-        .then((data: string) => {
-            const json: QuestionnaireList = JSON.parse(data);
-            remoteCategories.value = json.categories;
-            filteredCategories.value = json.categories;
-            loadingState.value.currentState = LoadState.Loaded;
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            loadingState.value.currentState = LoadState.Error;
-            loadingState.value.error = error;
-        });
+
+        const data = await response.text();
+        const json: QuestionnaireList = JSON.parse(data);
+        remoteCategories.value = json.categories;
+        filteredCategories.value = json.categories;
+        loadingState.value.currentState = LoadState.Loaded;
+    } catch (error) {
+        console.error(`加载量表列表时发生错误：${error}`);
+        loadingState.value.currentState = LoadState.Error;
+        loadingState.value.error = error as string;
+    }
 });
 
 // 搜索文本

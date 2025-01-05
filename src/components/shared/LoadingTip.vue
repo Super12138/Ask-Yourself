@@ -2,7 +2,7 @@
 import { computed, type PropType } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-import { LoadState, type LoadingState} from '@/interfaces/Interfaces';
+import { LoadState, type LoadingState } from '@/interfaces/Interfaces';
 
 import CenterItem from './CenterItem.vue';
 
