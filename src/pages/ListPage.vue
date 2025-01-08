@@ -1,68 +1,40 @@
 <script setup lang="ts">
-import { computed, onMounted, ref, watch, type ComputedRef } from 'vue';
+import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-import type { Category, QuestionnaireList } from '@/interfaces/QuestionnaireList';
+import type { QuestionnaireList } from '@/interfaces/QuestionnaireList';
 
 import QuestionnaireCategory from '@/components/list/QuestionnaireCategory.vue';
-import LoadingTip from '@/components/shared/LoadingTip.vue';
-import FadeOutInTransition from '@/components/transitions/FadeOutInTransition.vue';
 
 import 'mdui/components/badge.js';
-import 'mdui/components/button.js';
+import 'mdui/components/circular-progress.js';
 import 'mdui/components/list.js';
 import 'mdui/components/text-field.js';
 
-import { LoadState, type LoadingState } from '@/interfaces/Interfaces';
-import { generateRegex } from '@/utils/utils';
+import '@mdui/icons/report-gmailerrorred--outlined.js';
 import '@mdui/icons/search--outlined.js';
 
+import LoadingTip from '@/components/shared/LoadingTip.vue';
+
+import FadeOutInTransition from '@/components/transitions/FadeOutInTransition.vue';
+import { useFetchJSON } from '@/utils/network';
+
 const { t } = useI18n();
-const loadingState = ref<LoadingState>({
-    currentState: LoadState.Loading,
-    loadingTip: t('tips.loadingTipList'),
-});
-const showContent: ComputedRef<boolean> = computed(() => {
-    return loadingState.value.currentState === LoadState.Loaded
-});
-const remoteCategories = ref<Category[]>([]);
-const filteredCategories = ref<Category[]>([]);
+
 const searchQuery = ref('');
 
 // 加载题库
-onMounted(async () => {
-    try {
-        const response = await fetch(
-            `https://cdn.jsdelivr.net/gh/Super12138/AY-Questionnaires-DB@minify/list.json?${new Date().getTime()}`,
-            {
-                cache: 'no-cache',
-                method: 'GET',
-            }
-        );
-        if (!response.ok) {
-            throw new Error(`获取量表列表时请求失败（${response.status}-${response.statusText}）`);
-        }
-
-        const data = await response.text();
-        const json: QuestionnaireList = JSON.parse(data);
-        remoteCategories.value = json.categories;
-        filteredCategories.value = json.categories;
-        loadingState.value.currentState = LoadState.Loaded;
-    } catch (error) {
-        console.error(`加载量表列表时发生错误：${error}`);
-        loadingState.value.currentState = LoadState.Error;
-        loadingState.value.error = error as string;
-    }
-});
+const { data, error } = useFetchJSON<QuestionnaireList>(`https://cdn.jsdelivr.net/gh/Super12138/AY-Questionnaires-DB@minify/list.json?${new Date().getTime()}`);
 
 // 搜索文本
-watch(searchQuery, (query: string) => {
+/* watch(searchQuery, (query: string) => {
+    const category: QuestionnaireList = JSON.parse(JSON.stringify(data.value));
     if (query === '') {
-        return filteredCategories.value = remoteCategories.value;
+        return filterdData.value = category.categories;
     }
 
     const regex = generateRegex(query);
-    filteredCategories.value = remoteCategories.value.map(category => {
+    filterdData.value = category.categories.map(category => {
         const questionnaires = category.questionnaires.filter(questionnaire => {
             return regex.test(questionnaire.name);
         });
@@ -72,23 +44,21 @@ watch(searchQuery, (query: string) => {
             questionnaires,
         };
     });
-});
+});*/
 </script>
 
 <template>
     <FadeOutInTransition>
-        <div v-if="showContent">
+        <div v-if="data">
             <mdui-text-field clearable :label="t('list.searchBarLabel')" v-model="searchQuery">
                 <mdui-icon-search--outlined slot="icon"></mdui-icon-search--outlined>
             </mdui-text-field>
             <mdui-list>
-                <QuestionnaireCategory :categories="filteredCategories" />
+                <QuestionnaireCategory :categories="data.categories" />
             </mdui-list>
         </div>
 
-        <LoadingTip v-else :loadingState="loadingState">
-            <mdui-button @click="showContent = !showContent">强制切换内容</mdui-button>
-        </LoadingTip>
+        <LoadingTip v-else :error="error?.toString()" :loadingText="t('tips.loadingTipList')" />
     </FadeOutInTransition>
 </template>
 
