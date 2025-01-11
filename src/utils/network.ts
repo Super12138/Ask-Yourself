@@ -18,7 +18,7 @@ export function useFetchJSON<T = string>(url: string): { data: Ref<T | null>; er
         )
             .then((response: Response) => {
                 if(!response.ok) {
-                    throw new Error(`请求时发生网络错误：${response.status}-${response.statusText}`);
+                    throw new Error(`请求时发生错误（${response.status}）`);
                 }
                 return response.json() as Promise<T>;
             })

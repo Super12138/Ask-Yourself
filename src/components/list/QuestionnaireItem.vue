@@ -5,6 +5,7 @@ import { RouterLink } from 'vue-router';
 
 import type { QuestionnaireItem } from '@/interfaces/QuestionnaireList';
 
+import 'mdui/components/badge.js';
 import 'mdui/components/list-item.js';
 
 // interface Props {

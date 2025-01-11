@@ -1,12 +1,15 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { useFetchJSON } from '@/utils/network';
+import { generateRegex } from '@/utils/string';
+import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-import type { QuestionnaireList } from '@/interfaces/QuestionnaireList';
+import type { Category, QuestionnaireList } from '@/interfaces/QuestionnaireList';
 
 import QuestionnaireCategory from '@/components/list/QuestionnaireCategory.vue';
+import LoadingTip from '@/components/shared/LoadingTip.vue';
+import FadeOutInTransition from '@/components/transitions/FadeOutInTransition.vue';
 
-import 'mdui/components/badge.js';
 import 'mdui/components/circular-progress.js';
 import 'mdui/components/list.js';
 import 'mdui/components/text-field.js';
@@ -14,37 +17,42 @@ import 'mdui/components/text-field.js';
 import '@mdui/icons/report-gmailerrorred--outlined.js';
 import '@mdui/icons/search--outlined.js';
 
-import LoadingTip from '@/components/shared/LoadingTip.vue';
-
-import FadeOutInTransition from '@/components/transitions/FadeOutInTransition.vue';
-import { useFetchJSON } from '@/utils/network';
-
 const { t } = useI18n();
-
 const searchQuery = ref('');
 
 // 加载题库
 const { data, error } = useFetchJSON<QuestionnaireList>(`https://cdn.jsdelivr.net/gh/Super12138/AY-Questionnaires-DB@minify/list.json?${new Date().getTime()}`);
 
-// 搜索文本
-/* watch(searchQuery, (query: string) => {
-    const category: QuestionnaireList = JSON.parse(JSON.stringify(data.value));
-    if (query === '') {
-        return filterdData.value = category.categories;
+const filteredData = computed(() => {
+    // 如果数据未加载或搜索框为空，则直接返回全部数据
+    if (!data.value || !searchQuery.value.trim()) {
+        return data.value?.categories || [];
     }
 
-    const regex = generateRegex(query);
-    filterdData.value = category.categories.map(category => {
-        const questionnaires = category.questionnaires.filter(questionnaire => {
-            return regex.test(questionnaire.name);
-        });
+    // 搜索关键字的正则表达式
+    const regex = generateRegex(searchQuery.value.trim());
 
-        return {
-            ...category,
-            questionnaires,
-        };
-    });
-});*/
+    // 在分类和问卷中逐层过滤
+    return data.value.categories
+        .map((category) => {
+            // 筛选符合条件的问卷
+            const filteredQuestionnaires = category.questionnaires.filter((item) => {
+                return regex.test(item.name);
+            });
+
+            // 如果该分类下有符合条件的问卷，则保留此分类
+            if (filteredQuestionnaires.length > 0) {
+                return {
+                    ...category,
+                    questionnaires: filteredQuestionnaires,
+                };
+            }
+
+            // 否则过滤掉整个分类
+            return null;
+        })
+        .filter((category): category is Category => category !== null); // 移除 null 值
+});
 </script>
 
 <template>
@@ -54,7 +62,7 @@ const { data, error } = useFetchJSON<QuestionnaireList>(`https://cdn.jsdelivr.ne
                 <mdui-icon-search--outlined slot="icon"></mdui-icon-search--outlined>
             </mdui-text-field>
             <mdui-list>
-                <QuestionnaireCategory :categories="data.categories" />
+                <QuestionnaireCategory :categories="filteredData" />
             </mdui-list>
         </div>
 
