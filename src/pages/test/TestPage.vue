@@ -7,8 +7,7 @@ import { useRoute } from 'vue-router';
 import type { QuestionnaireFile } from '@/interfaces/QuestionnaireFile';
 
 import LoadingTip from '@/components/shared/LoadingTip.vue';
-import IntroPart from '@/components/test/IntroPart.vue';
-import FadeOutInTransition from '@/components/transitions/FadeOutInTransition.vue';
+import IntroPart from './components/IntroPart.vue';
 
 import 'mdui/components/divider.js';
 

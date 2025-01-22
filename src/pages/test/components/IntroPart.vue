@@ -14,6 +14,7 @@ defineProps({
     }
 });
 </script>
+
 <template>
     <div>
         <p>{{ data.description }}</p>
