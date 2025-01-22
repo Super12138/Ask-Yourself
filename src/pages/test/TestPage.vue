@@ -8,6 +8,7 @@ import type { QuestionnaireFile } from '@/interfaces/QuestionnaireFile';
 
 import LoadingTip from '@/components/shared/LoadingTip.vue';
 import IntroPart from './components/IntroPart.vue';
+import FadeOutInTransition from '@/components/transitions/FadeOutInTransition.vue';
 
 import 'mdui/components/divider.js';
 
