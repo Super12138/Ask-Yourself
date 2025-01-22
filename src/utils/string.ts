@@ -18,3 +18,7 @@ export function generateRegex(keyword: string): RegExp {
     const regexStr = `(.*)(` + keyword.split('').join(')(.*)(') + `)(.*)`;
     return new RegExp(regexStr, 'i');
 }
+
+export function isURL(url: string): boolean {
+    return url.startsWith("http://") || url.startsWith("https://");
+}

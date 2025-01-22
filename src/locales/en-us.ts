@@ -15,6 +15,10 @@ export const enUS: typeof zhCN = {
         chineseVer: "Chinese Version",
         englishVer: "English Version"
     },
+    test: {
+        references: "References",
+        beforeAnswerTip: "Please carefully read the text in red below, and click the \"Start\" button to begin answering."
+    },
     pageNotFound: {
         title: "Page not found",
         backTip: "Don't worry, click the button below to return to the questionnaire list page",
@@ -22,7 +26,8 @@ export const enUS: typeof zhCN = {
     },
     tips: {
         loadingTipDefault: "Loading",
-        loadingTipList: "Questionnaire list is loading, it will be ready soon"
+        loadingTipList: "Questionnaire list is loading, it will be ready soon",
+        loadingTipTest: "Questionnaire is loading, it will be ready soon"
     },
 };
 

@@ -14,6 +14,10 @@ export const zhCN = {
         chineseVer: "中文版",
         englishVer: "英文版"
     },
+    test: {
+        references: "参考信息",
+        beforeAnswerTip: "请仔细阅读下方红字内容，并点击“开始”按钮开始作答。"
+    },
     pageNotFound: {
         title: "页面未找到",
         backTip: "别担心，点击下方按钮回到题库页面吧",
@@ -21,7 +25,8 @@ export const zhCN = {
     },
     tips: {
         loadingTipDefault: "加载中，请稍后",
-        loadingTipList: "题库正在加载，很快就好"
+        loadingTipList: "题库正在加载，很快就好",
+        loadingTipTest: "试题正在加载，很快就好"
     },
 };
 

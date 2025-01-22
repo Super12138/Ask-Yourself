@@ -57,6 +57,7 @@ p {
 /* 超链接样式 */
 a {
     display: block;
+    transition: all 0.15s ease-in-out;
 }
 
 a:link {
@@ -87,13 +88,6 @@ strong {
 
 mdui-divider {
     margin: 1rem 0;
-}
-
-.link {
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-    margin: 0
 }
 
 /* 颜色 */
