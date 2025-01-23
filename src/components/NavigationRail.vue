@@ -33,9 +33,3 @@ defineProps({
         </RouterLink>
     </mdui-navigation-rail>
 </template>
-
-<style lang="css" scoped>
-mdui-navigation-rail {
-    background-color: rgb(var(--mdui-color-surface-container-low));
-}
-</style>

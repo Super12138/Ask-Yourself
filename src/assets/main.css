@@ -90,6 +90,24 @@ mdui-divider {
     margin: 1rem 0;
 }
 
+/* 导航栏、标题栏及背景颜色 */
+mdui-top-app-bar {
+    padding: 1rem 0.9rem;
+}
+
+mdui-top-app-bar[scrolling] {
+    background-color: rgb(var(--mdui-color-surface-container)) !important;
+    box-shadow: 0 0 0;
+}
+
+mdui-navigation-rail {
+    background-color: rgb(var(--mdui-color-surface-container));
+}
+
+mdui-navigation-bar {
+    background-color: rgb(var(--mdui-color-surface-container));
+}
+
 /* 颜色 */
 .red {
     color: #B10000;

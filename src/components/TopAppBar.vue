@@ -12,14 +12,3 @@ const { t } = useI18n();
         <mdui-top-app-bar-title>{{ t("app.name") }}</mdui-top-app-bar-title>
     </mdui-top-app-bar>
 </template>
-
-<style lang="css" scoped>
-mdui-top-app-bar {
-    padding: 1rem 0.9rem;
-}
-
-mdui-top-app-bar[scrolling] {
-    background-color: rgb(var(--mdui-color-surface-container-low)) !important;
-    box-shadow: 0 0 0;
-}
-</style>
