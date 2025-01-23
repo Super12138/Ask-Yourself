@@ -1,5 +1,6 @@
 <script setup lang="ts">
 // 导入
+import { observeResize } from 'mdui';
 import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { RouterView, useRoute } from 'vue-router';
@@ -25,36 +26,46 @@ const largeScreen = ref(window.innerWidth >= 840);
 
 const pages = ref<PageItem[]>([
     {
-        name: t("navigation.list"),
+        name: t('navigation.list'),
         value: 'list',
         icon: 'list--outlined',
-        url: '/'
+        url: '/',
     },
     {
-        name: t("navigation.test"),
+        name: t('navigation.test'),
         value: 'test',
         icon: 'brush--outlined',
-        url: '/test'
+        url: '/test',
     },
     {
-        name: t("navigation.settings"),
+        name: t('navigation.settings'),
         value: 'settings',
         icon: 'settings--outlined',
-        url: '/settings'
-    }
+        url: '/settings',
+    },
 ]);
 
 onMounted(() => {
-    window.addEventListener('resize', () => {
-        window.innerWidth < 840 ? largeScreen.value = false : largeScreen.value = true;
+    observeResize(document.body, (entry, observer) => {
+        entry.contentRect.width < 840
+            ? (largeScreen.value = false)
+            : (largeScreen.value = true);
     });
 });
 </script>
 
 <template>
     <mdui-layout>
-        <NavRail v-if="largeScreen" :value="currentPage" :pages="pages" />
-        <NavBar v-else :value="currentPage" :pages="pages" />
+        <NavRail
+            v-if="largeScreen"
+            :value="currentPage"
+            :pages="pages"
+        />
+        <NavBar
+            v-else
+            :value="currentPage"
+            :pages="pages"
+        />
 
         <mdui-layout-main id="container">
             <RouterView v-slot="{ Component }">

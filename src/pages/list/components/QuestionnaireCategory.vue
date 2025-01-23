@@ -17,7 +17,10 @@ defineProps({
 <template>
     <div v-for="category in categories">
         <mdui-list-subheader>{{ category.name }}</mdui-list-subheader>
-        <QuestionnaireItem v-for="questionnaire in category.questionnaires" :key="questionnaire.value"
-            :questionnaire="questionnaire" />
+        <QuestionnaireItem
+            v-for="questionnaire in category.questionnaires"
+            :key="questionnaire.value"
+            :questionnaire="questionnaire"
+        />
     </div>
 </template>

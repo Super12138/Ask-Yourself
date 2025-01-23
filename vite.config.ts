@@ -12,9 +12,9 @@ export default defineConfig({
         vue({
             template: {
                 compilerOptions: {
-                    isCustomElement: (tag) => tag.startsWith('mdui-')
-                }
-            }
+                    isCustomElement: (tag) => tag.startsWith('mdui-'),
+                },
+            },
         }),
         vueDevTools(),
         VitePWA({
@@ -31,7 +31,7 @@ export default defineConfig({
                 short_name: '问心',
                 description: '常用心理量表集合',
                 theme_color: '#ffffff',
-                lang: "zh",
+                lang: 'zh',
             },
 
             workbox: {
@@ -52,11 +52,11 @@ export default defineConfig({
         }),
     ],
     server: {
-        open: true
+        open: true,
     },
     resolve: {
         alias: {
-            '@': fileURLToPath(new URL('./src', import.meta.url))
+            '@': fileURLToPath(new URL('./src', import.meta.url)),
         },
     },
     build: {
@@ -70,8 +70,8 @@ export default defineConfig({
                         }
                         return 'vendor';
                     }
-                }
-            }
-        }
-    }
+                },
+            },
+        },
+    },
 });

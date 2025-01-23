@@ -4,7 +4,10 @@ import { generateRegex } from '@/utils/string';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-import type { Category, QuestionnaireList } from '@/interfaces/QuestionnaireList';
+import type {
+    Category,
+    QuestionnaireList,
+} from '@/interfaces/QuestionnaireList';
 
 import LoadingTip from '@/components/shared/LoadingTip.vue';
 import FadeOutInTransition from '@/components/transitions/FadeOutInTransition.vue';
@@ -21,7 +24,9 @@ const { t } = useI18n();
 const searchQuery = ref('');
 
 // 加载题库
-const { data, error } = useFetchJSON<QuestionnaireList>(`https://cdn.jsdelivr.net/gh/Super12138/AY-Questionnaires-DB@minify/list.json?${new Date().getTime()}`);
+const { data, error } = useFetchJSON<QuestionnaireList>(
+    `https://cdn.jsdelivr.net/gh/Super12138/AY-Questionnaires-DB@minify/list.json?${new Date().getTime()}`,
+);
 
 const filteredData = computed(() => {
     // 如果数据未加载或搜索框为空，则直接返回全部数据
@@ -36,9 +41,11 @@ const filteredData = computed(() => {
     return data.value.categories
         .map((category) => {
             // 筛选符合条件的问卷
-            const filteredQuestionnaires = category.questionnaires.filter((item) => {
-                return regex.test(item.name);
-            });
+            const filteredQuestionnaires = category.questionnaires.filter(
+                (item) => {
+                    return regex.test(item.name);
+                },
+            );
 
             // 如果该分类下有符合条件的问卷，则保留此分类
             if (filteredQuestionnaires.length > 0) {
@@ -58,15 +65,25 @@ const filteredData = computed(() => {
 <template>
     <FadeOutInTransition>
         <div v-if="data">
-            <mdui-text-field clearable :label="t('list.searchBarLabel')" v-model="searchQuery">
-                <mdui-icon-search--outlined slot="icon"></mdui-icon-search--outlined>
+            <mdui-text-field
+                clearable
+                :label="t('list.searchBarLabel')"
+                v-model="searchQuery"
+            >
+                <mdui-icon-search--outlined
+                    slot="icon"
+                ></mdui-icon-search--outlined>
             </mdui-text-field>
             <mdui-list>
                 <QuestionnaireCategory :categories="filteredData" />
             </mdui-list>
         </div>
 
-        <LoadingTip v-else :error="error?.toString()" :loadingText="t('tips.loadingTipList')" />
+        <LoadingTip
+            v-else
+            :error="error?.toString()"
+            :loadingText="t('tips.loadingTipList')"
+        />
     </FadeOutInTransition>
 </template>
 

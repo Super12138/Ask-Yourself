@@ -24,10 +24,14 @@ defineProps({
     <CenterItem>
         <template #icon>
             <mdui-circular-progress v-if="!error"></mdui-circular-progress>
-            <mdui-icon-report-gmailerrorred--outlined v-else></mdui-icon-report-gmailerrorred--outlined>
+            <mdui-icon-report-gmailerrorred--outlined
+                v-else
+            ></mdui-icon-report-gmailerrorred--outlined>
         </template>
         <template #content>
-            <p v-if="!error">{{ loadingText? loadingText : t("tips.loadingTipList") }}</p>
+            <p v-if="!error">
+                {{ loadingText ? loadingText : t('tips.loadingTipList') }}
+            </p>
             <p v-else>{{ error }}</p>
             <slot></slot>
         </template>

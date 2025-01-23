@@ -1,4 +1,3 @@
-
 /**
  * 生成一个正则表达式，用于匹配包含给定关键字字符的任何字符串
  * 用于进行模糊搜索的关键字匹配
@@ -20,5 +19,5 @@ export function generateRegex(keyword: string): RegExp {
 }
 
 export function isURL(url: string): boolean {
-    return url.startsWith("http://") || url.startsWith("https://");
+    return url.startsWith('http://') || url.startsWith('https://');
 }

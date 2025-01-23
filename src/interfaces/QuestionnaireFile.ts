@@ -97,11 +97,11 @@ export interface Scoring {
      * 组 Id
      * 需要和题目的`组 Id` **完全对应**
      */
-    groupId: number
+    groupId: number;
     /**
      * 该评分组的名称（如`焦虑`、`抑郁`等）
      */
-    name: string
+    name: string;
     /**
      * 计算方法
      * * 该评分组的计算方法，支持下方四种方法：
@@ -116,7 +116,7 @@ export interface Scoring {
     /**
      * 分数的分值范围，用来规定分数的范围，比如规定`轻度`、`中度`的分界
      */
-    ranges: Range[]
+    ranges: Range[];
 }
 
 /**

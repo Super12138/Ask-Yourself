@@ -25,9 +25,21 @@ defineProps({
 
 <template>
     <mdui-navigation-rail :value="value">
-        <RouterLink v-for="page in pages" :key="page.value" :to="page.url" custom v-slot="{ navigate }">
-            <mdui-navigation-rail-item :value="page.value" @click="navigate">
-                <component :is="`mdui-icon-${page.icon}`" slot="icon"></component>
+        <RouterLink
+            v-for="page in pages"
+            :key="page.value"
+            :to="page.url"
+            custom
+            v-slot="{ navigate }"
+        >
+            <mdui-navigation-rail-item
+                :value="page.value"
+                @click="navigate"
+            >
+                <component
+                    :is="`mdui-icon-${page.icon}`"
+                    slot="icon"
+                ></component>
                 {{ page.name }}
             </mdui-navigation-rail-item>
         </RouterLink>

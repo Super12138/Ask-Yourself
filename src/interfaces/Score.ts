@@ -1,4 +1,4 @@
-import type { Colors } from "./QuestionnaireFile";
+import type { Colors } from './QuestionnaireFile';
 
 /**
  * 计算完成后评分接口

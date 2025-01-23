@@ -24,10 +24,26 @@ defineProps({
 </script>
 
 <template>
-    <RouterLink :to="`/test?name=${questionnaire.value}`" custom v-slot="{ navigate }">
-        <mdui-list-item :description="questionnaire.lang === 'en' ? t('list.englishVer') : t('list.chineseVer')" @click="navigate"
-            alignment="center">
-            {{ questionnaire.name }}<mdui-badge v-if="questionnaire.new" variant="large">新</mdui-badge>
+    <RouterLink
+        :to="`/test?name=${questionnaire.value}`"
+        custom
+        v-slot="{ navigate }"
+    >
+        <mdui-list-item
+            :description="
+                questionnaire.lang === 'en'
+                    ? t('list.englishVer')
+                    : t('list.chineseVer')
+            "
+            @click="navigate"
+            alignment="center"
+        >
+            {{ questionnaire.name
+            }}<mdui-badge
+                v-if="questionnaire.new"
+                variant="large"
+                >新</mdui-badge
+            >
         </mdui-list-item>
     </RouterLink>
 </template>

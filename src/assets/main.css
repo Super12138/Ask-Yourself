@@ -83,7 +83,7 @@ a:active {
 strong {
     line-height: var(--mdui-typescale-body-large-line-height);
     font-size: var(--mdui-typescale-body-large-size);
-    letter-spacing: var(--mdui-typescale-body-large-tracking)
+    letter-spacing: var(--mdui-typescale-body-large-tracking);
 }
 
 mdui-divider {
@@ -110,28 +110,28 @@ mdui-navigation-bar {
 
 /* 颜色 */
 .red {
-    color: #B10000;
+    color: #b10000;
 }
 
 .orange {
-    color: #E65100;
+    color: #e65100;
 }
 
 .yellow {
-    color: #FFA000;
+    color: #ffa000;
 }
 
 .green {
-    color: #1B5E20;
+    color: #1b5e20;
 }
 
 @media (prefers-color-scheme: dark) {
     .red {
-        color: #D32F2F;
+        color: #d32f2f;
     }
 
     .orange {
-        color: #F57F17;
+        color: #f57f17;
     }
 
     .yellow {
@@ -139,6 +139,6 @@ mdui-navigation-bar {
     }
 
     .green {
-        color: #00C853;
+        color: #00c853;
     }
 }

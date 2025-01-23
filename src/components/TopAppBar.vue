@@ -8,7 +8,10 @@ const { t } = useI18n();
 </script>
 
 <template>
-    <mdui-top-app-bar scroll-behavior="elevate" scroll-target="#container">
-        <mdui-top-app-bar-title>{{ t("app.name") }}</mdui-top-app-bar-title>
+    <mdui-top-app-bar
+        scroll-behavior="elevate"
+        scroll-target="#container"
+    >
+        <mdui-top-app-bar-title>{{ t('app.name') }}</mdui-top-app-bar-title>
     </mdui-top-app-bar>
 </template>

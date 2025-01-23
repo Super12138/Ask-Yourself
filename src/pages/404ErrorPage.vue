@@ -17,10 +17,18 @@ const { t } = useI18n();
             <mdui-icon-report-gmailerrorred--outlined></mdui-icon-report-gmailerrorred--outlined>
         </template>
         <template #content>
-            <h2>{{ t("pageNotFound.title") }}</h2>
-            <p>{{ t("pageNotFound.backTip")}}</p>
-            <RouterLink to="/" custom v-slot="{ navigate }">
-                <mdui-button variant="tonal" @click="navigate">{{ t("pageNotFound.backBtn") }}</mdui-button>
+            <h2>{{ t('pageNotFound.title') }}</h2>
+            <p>{{ t('pageNotFound.backTip') }}</p>
+            <RouterLink
+                to="/"
+                custom
+                v-slot="{ navigate }"
+            >
+                <mdui-button
+                    variant="tonal"
+                    @click="navigate"
+                    >{{ t('pageNotFound.backBtn') }}</mdui-button
+                >
             </RouterLink>
         </template>
     </CenterItem>

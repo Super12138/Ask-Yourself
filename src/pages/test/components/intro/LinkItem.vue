@@ -4,14 +4,25 @@ import { isURL } from '@/utils/string';
 defineProps({
     reference: {
         type: String,
-        required: true
-    }
+        required: true,
+    },
 });
 </script>
 
 <template>
-    <a v-if="isURL(reference)" :href="reference" class="link" target="_blank">{{ reference }}</a>
-    <p v-else class="link">{{ reference }}</p>
+    <a
+        v-if="isURL(reference)"
+        :href="reference"
+        class="link"
+        target="_blank"
+        >{{ reference }}</a
+    >
+    <p
+        v-else
+        class="link"
+    >
+        {{ reference }}
+    </p>
 </template>
 
 <style lang="css" scoped>

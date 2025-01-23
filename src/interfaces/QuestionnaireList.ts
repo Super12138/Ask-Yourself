@@ -1,4 +1,4 @@
-import type { Languages } from "./Interfaces";
+import type { Languages } from './Interfaces';
 
 /**
  * 量表列表接口
