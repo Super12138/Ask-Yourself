@@ -91,7 +91,7 @@ mdui-list-subheader {
 
 /* 充满页面 */
 mdui-layout {
-    height: 100vh;
+    height: 100dvh;
 }
 
 mdui-list-item {
