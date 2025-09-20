@@ -1,40 +1,38 @@
 {
     "name": "ask-yourself",
+    "version": "0.0.0",
     "private": true,
-    "version": "1.0.0",
     "type": "module",
+    "engines": {
+        "node": "^20.19.0 || >=22.12.0"
+    },
     "scripts": {
         "dev": "vite",
-        "build": "tsc && vite build",
-        "preview": "vite preview"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/Super12138/Ask-Yourself.git"
-    },
-    "author": "Super12138",
-    "license": "GPL-3.0",
-    "bugs": {
-        "url": "https://github.com/Super12138/Ask-Yourself/issues"
+        "build": "run-p type-check \"build-only {@}\" --",
+        "preview": "vite preview",
+        "build-only": "vite build",
+        "type-check": "vue-tsc --build",
+        "format": "prettier --write ./"
     },
     "homepage": "https://github.com/Super12138/Ask-Yourself#readme",
     "dependencies": {
-        "mdui": "^2.1.4"
+        "@vueuse/core": "^13.9.0",
+        "mdui": "^2.1.4",
+        "pinia": "^3.0.3",
+        "vue": "^3.5.21",
+        "vue-router": "^4.5.1"
     },
     "devDependencies": {
         "@mdui/icons": "^1.0.3",
+        "@tsconfig/node24": "^24.0.1",
         "@types/node": "^24.5.2",
-        "@vite-pwa/assets-generator": "^1.0.1",
-        "typedoc": "^0.28.13",
-        "typedoc-plugin-markdown": "^4.8.1",
+        "@vitejs/plugin-vue": "^6.0.1",
+        "@vue/tsconfig": "^0.8.1",
+        "npm-run-all2": "^8.0.4",
+        "prettier": "^3.6.2",
         "typescript": "^5.9.2",
         "vite": "^7.1.6",
-        "vite-plugin-html": "^3.2.2",
-        "vite-plugin-pwa": "^1.0.3",
-        "workbox-core": "^7.3.0",
-        "workbox-precaching": "^7.3.0",
-        "workbox-routing": "^7.3.0",
-        "workbox-strategies": "^7.3.0",
-        "workbox-window": "^7.3.0"
+        "vite-plugin-vue-devtools": "^8.0.2",
+        "vue-tsc": "^3.0.7"
     }
 }

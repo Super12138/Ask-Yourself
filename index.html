@@ -1,27 +1,18 @@
 <!DOCTYPE HTML>
-<html lang="zh-CN" class="mdui-theme-auto">
+<html>
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
-    <meta name="renderer" content="webkit">
-    <link href="./src/index.css" rel="stylesheet">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" />
+    <meta name="renderer" content="webkit" />
+    <link rel="stylesheet" href="./node_modules/mdui/mdui.css" />
+    <link rel="stylesheet" href="./src/assets/main.css" />
     <title>问心</title>
 </head>
 
 <body>
-    <mdui-layout>
-        <mdui-navigation-bar id="navigationBar"></mdui-navigation-bar>
-        <mdui-navigation-rail id="navigationRail"></mdui-navigation-rail>
-        <mdui-layout-main id="container"></mdui-layout-main>
-        <mdui-top-app-bar scroll-behavior="elevate" scroll-target="#container">
-            <mdui-top-app-bar-title id="appTitle">问心</mdui-top-app-bar-title>
-        </mdui-top-app-bar>
-    </mdui-layout>
-    <script type="module" src="./src/index.ts"></script>
-    <script type="module" src="./src/list/index.ts"></script>
-    <script type="module" src="./src/test/index.ts"></script>
-    <script type="module" src="./src/settings/index.ts"></script>
+    <div id="app"></div>
+    <script type="module" src="./src/main.ts"></script>
 </body>
 
 </html>
