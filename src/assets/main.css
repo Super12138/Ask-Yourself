@@ -1,22 +1,31 @@
 body {
-    height: 100vh;
+    height: 100%;
     margin: 0;
+    opacity: 0;
     font-family:
-        Inter,
+        Avenir,
         -apple-system,
         BlinkMacSystemFont,
         "Segoe UI",
-        Roboto,
-        Oxygen,
-        Ubuntu,
-        Cantarell,
-        "Fira Sans",
-        "Droid Sans",
+        "PingFang SC",
+        "Hiragino Sans GB",
+        "Microsoft YaHei",
         "Helvetica Neue",
+        Helvetica,
+        Arial,
+        sans-serif,
+        "Apple Color Emoji",
+        "Segoe UI Emoji",
+        "Segoe UI Symbol",
         sans-serif;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+}
+
+body.ready {
+    opacity: 1;
+    transition: 0.25s opacity;
 }
 
 mdui-layout {
