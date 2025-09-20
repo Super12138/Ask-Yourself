@@ -12,7 +12,7 @@
         "preview": "vite preview",
         "build-only": "vite build",
         "type-check": "vue-tsc --build",
-        "format": "prettier --write ./"
+        "format": "prettier --write ./src"
     },
     "homepage": "https://github.com/Super12138/Ask-Yourself#readme",
     "dependencies": {
