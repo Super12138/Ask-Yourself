@@ -17,13 +17,14 @@ import { useFetch } from "@vueuse/core";
 import { onMounted, ref, watch } from "vue";
 import { RouterLink } from "vue-router";
 
-const { isFetching, error, data } = useFetch(
+const { isFetching, error, data } = useFetch<string>(
     `${QUESTIONNAIRE_BASE_URL}/list.json?${new Date().getTime()}`,
 );
-const questionnairesList = ref<QuestionnairesList>();
 
-watch(data, (listString: string) => {
-    questionnairesList.value = JSON.parse(listString) as QuestionnairesList;
+const questionnaireList = ref<QuestionnairesList>();
+
+watch(data, (value) => {
+    questionnaireList.value = JSON.parse(value) as QuestionnairesList;
 });
 
 onMounted(() => {
@@ -40,15 +41,16 @@ onMounted(() => {
                 <mdui-icon-settings--outlined></mdui-icon-settings--outlined>
             </mdui-button-icon>
         </mdui-top-app-bar>
-        <mdui-layout-main id="container">
-            <mdui-list v-if="!isFetching && !error && questionnairesList">
-                <template v-for="category in questionnairesList.categories">
+        <mdui-layout-main id="container" class="mdui-prose">
+            <mdui-list v-if="!isFetching && !error && questionnaireList">
+                <template v-for="category in questionnaireList.categories" :key="category.name">
                     <mdui-list-subheader>
                         {{ category.name }}
                     </mdui-list-subheader>
                     <RouterLink
                         v-for="questionnaire in category.questionnaires"
                         :to="`/test/${questionnaire.value}`"
+                        :key="questionnaire.value"
                         custom
                         v-slot="{ isActive, href, navigate }"
                     >
