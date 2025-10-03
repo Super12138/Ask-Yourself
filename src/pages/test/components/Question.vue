@@ -44,3 +44,9 @@ const emit = defineEmits<{
         </mdui-list-item>
     </mdui-list> -->
 </template>
+
+<style lang="css" scoped>
+mdui-radio {
+    width: 100%;
+}
+</style>

@@ -16,6 +16,9 @@ import type { QuestionnairesList } from "@/types/QuestionnaireList";
 import { useFetch } from "@vueuse/core";
 import { onMounted, ref, watch } from "vue";
 import { RouterLink } from "vue-router";
+import LoadingTip from "@/components/LoadingTip.vue";
+import QuestionnaireItem from "./QuestionnaireItem.vue";
+import FadeOutInTransition from "@/components/transition/FadeOutInTransition.vue";
 
 const { isFetching, error, data } = useFetch<string>(
     `${QUESTIONNAIRE_BASE_URL}/list.json?${new Date().getTime()}`,
@@ -42,27 +45,21 @@ onMounted(() => {
             </mdui-button-icon>
         </mdui-top-app-bar>
         <mdui-layout-main id="container" class="mdui-prose">
-            <mdui-list v-if="!isFetching && !error && questionnaireList">
-                <template v-for="category in questionnaireList.categories" :key="category.name">
-                    <mdui-list-subheader>
-                        {{ category.name }}
-                    </mdui-list-subheader>
-                    <RouterLink
-                        v-for="questionnaire in category.questionnaires"
-                        :to="`/test/${questionnaire.value}`"
-                        :key="questionnaire.value"
-                        custom
-                        v-slot="{ isActive, href, navigate }"
-                    >
-                        <mdui-list-item
-                            :headline="questionnaire.name"
-                            :description="questionnaire.lang"
-                            :href="href"
-                            @click="navigate"
-                        ></mdui-list-item>
-                    </RouterLink>
-                </template>
-            </mdui-list>
+            <FadeOutInTransition>
+                <mdui-list v-if="!isFetching && !error && questionnaireList">
+                    <template v-for="category in questionnaireList.categories" :key="category.name">
+                        <mdui-list-subheader>
+                            {{ category.name }}
+                        </mdui-list-subheader>
+                        <QuestionnaireItem
+                            v-for="questionnaire in category.questionnaires"
+                            :questionnaire="questionnaire"
+                        />
+                    </template>
+                </mdui-list>
+
+                <LoadingTip v-else :error="error" />
+            </FadeOutInTransition>
         </mdui-layout-main>
     </mdui-layout>
 </template>
