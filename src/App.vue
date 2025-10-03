@@ -1,15 +1,15 @@
 <script setup lang="ts">
 import { KeepAlive } from "vue";
 import { RouterView } from "vue-router";
-import FadeOutInTransition from "./components/transition/FadeOutInTransition.vue";
+import SlideFadeOutInTransition from "./components/transition/SlideFadeOutInTransition.vue";
 </script>
 
 <template>
     <RouterView v-slot="{ Component }">
-        <FadeOutInTransition>
+        <SlideFadeOutInTransition>
             <KeepAlive exclude="TestPage">
                 <component :is="Component" />
             </KeepAlive>
-        </FadeOutInTransition>
+        </SlideFadeOutInTransition>
     </RouterView>
 </template>

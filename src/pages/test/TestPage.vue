@@ -16,6 +16,9 @@ import { onMounted, ref, watch } from "vue";
 import { RouterLink, useRoute } from "vue-router";
 import Question from "./components/Question.vue";
 import Start from "./components/Start.vue";
+import ControlPanel from "./components/ControlPanel.vue";
+import Result from "./components/Result.vue";
+import SlideFadeOutInTransition from "@/components/transition/SlideFadeOutInTransition.vue";
 
 const route = useRoute();
 
@@ -24,6 +27,13 @@ const { isFetching, error, data } = useFetch<string>(
 );
 
 const questionnaireData = ref<QuestionnaireFile>();
+const currentQuestion = ref(-1);
+
+
+const onQuestionSelected = (value: number) => {
+    console.log(value);
+    currentQuestion.value += 1;
+};
 
 watch(data, (value) => {
     questionnaireData.value = JSON.parse(value) as QuestionnaireFile;
@@ -47,20 +57,31 @@ onMounted(() => {
         <mdui-layout-main id="container" class="mdui-prose">
             <div v-if="!isFetching && !error && questionnaireData">
                 <Start
+                    v-if="currentQuestion === -1"
                     :name="questionnaireData.name"
                     :description="questionnaireData.description"
                     :answer-tips="questionnaireData.answerTips"
                     :references="questionnaireData.references"
                 />
-                <Question
-                    v-if="false"
-                    v-for="(questionData, index) in questionnaireData.questions"
-                    :index="index + 1"
-                    :question="questionData.content"
-                    :options="questionnaireData.options"
-                    :reverse="questionData.reverse"
-                    :key="questionData.content"
-                    @selected="(value) => console.log(value)"
+                <template v-else-if="currentQuestion < questionnaireData.questions.length">
+                    <template
+                        v-for="(questionData, index) in questionnaireData.questions"
+                        :key="questionData.content"
+                    >
+                        <Question
+                            v-if="currentQuestion === index"
+                            :index="index + 1"
+                            :question="questionData.content"
+                            :options="questionnaireData.options"
+                            :reverse="questionData.reverse"
+                            @selected="onQuestionSelected"
+                        />
+                    </template>
+                </template>
+                <Result />
+                <ControlPanel
+                    v-model="currentQuestion"
+                    :total-question="questionnaireData.questions.length"
                 />
             </div>
         </mdui-layout-main>
