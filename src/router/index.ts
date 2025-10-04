@@ -1,5 +1,5 @@
 import NotFoundPage from "@/pages/NotFoundPage.vue";
-import { createRouter, createWebHistory, type RouteRecordRaw } from "vue-router";
+import { createRouter, createWebHashHistory, type RouteRecordRaw } from "vue-router";
 
 const routes: RouteRecordRaw[] = [
     { path: "/", component: () => import("@/pages/main/MainPage.vue") },
@@ -8,7 +8,7 @@ const routes: RouteRecordRaw[] = [
 ];
 
 const router = createRouter({
-    history: createWebHistory(import.meta.env.BASE_URL),
+    history: createWebHashHistory(import.meta.env.BASE_URL),
     routes: routes,
 });
 
