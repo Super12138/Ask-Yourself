@@ -11,16 +11,15 @@ import "@mdui/icons/arrow-back--outlined.js";
 import { QUESTIONNAIRE_BASE_URL } from "@/constants";
 import type { QuestionnaireFile } from "@/types/QuestionnaireFile";
 
+import LoadingTip from "@/components/LoadingTip.vue";
+import FadeOutInTransition from "@/components/transition/FadeOutInTransition.vue";
 import { useFetch } from "@vueuse/core";
 import { onMounted, ref, watch } from "vue";
 import { RouterLink, useRoute } from "vue-router";
-import Question from "./components/Question.vue";
-import Start from "./components/Start.vue";
 import ControlPanel from "./components/ControlPanel.vue";
+import Question from "./components/Question.vue";
 import Result from "./components/Result.vue";
-import SlideFadeOutInTransition from "@/components/transition/SlideFadeOutInTransition.vue";
-import LoadingTip from "@/components/LoadingTip.vue";
-import FadeOutInTransition from "@/components/transition/FadeOutInTransition.vue";
+import Start from "./components/Start.vue";
 
 const route = useRoute();
 
@@ -55,7 +54,7 @@ onMounted(() => {
             </RouterLink>
             <mdui-top-app-bar-title>测试</mdui-top-app-bar-title>
         </mdui-top-app-bar>
-        <mdui-layout-main id="container" class="mdui-prose">
+        <mdui-layout-main id="container" class="mdui-prose main-content">
             <FadeOutInTransition>
                 <div v-if="!isFetching && !error && questionnaireData">
                     <Start
@@ -92,3 +91,11 @@ onMounted(() => {
         </mdui-layout-main>
     </mdui-layout>
 </template>
+
+<style lang="css">
+.main-content {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+    padding-bottom: 1rem !important;
+}
+</style>

@@ -11,14 +11,13 @@ import "mdui/components/top-app-bar.js";
 
 import "@mdui/icons/settings--outlined.js";
 
+import LoadingTip from "@/components/LoadingTip.vue";
+import FadeOutInTransition from "@/components/transition/FadeOutInTransition.vue";
 import { QUESTIONNAIRE_BASE_URL } from "@/constants";
 import type { QuestionnairesList } from "@/types/QuestionnaireList";
 import { useFetch } from "@vueuse/core";
 import { onMounted, ref, watch } from "vue";
-import { RouterLink } from "vue-router";
-import LoadingTip from "@/components/LoadingTip.vue";
 import QuestionnaireItem from "./QuestionnaireItem.vue";
-import FadeOutInTransition from "@/components/transition/FadeOutInTransition.vue";
 
 const { isFetching, error, data } = useFetch<string>(
     `${QUESTIONNAIRE_BASE_URL}/list.json?${new Date().getTime()}`,
