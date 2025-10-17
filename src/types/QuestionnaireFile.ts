@@ -10,6 +10,16 @@ export interface QuestionnaireFile {
      */
     name: string;
     /**
+     * 量表作者
+     * * 量表的设计者或编写者
+     */
+    author: string;
+    /**
+     * 量表年份
+     * * 量表设计或发布的年份
+     */
+    year: number;
+    /**
      * 量表介绍
      * * 对该量表进行介绍，比如它是什么类型的，适用范围和**不需要持续提示**的作答须知等
      */
