@@ -29,7 +29,7 @@ const emit = defineEmits<{
         "
     >
         <mdui-radio v-for="option in options" :value="option.score" :key="option.score">
-            {{ option.name }}
+            {{ option.label }}
         </mdui-radio>
     </mdui-radio-group>
     <!-- <mdui-list>

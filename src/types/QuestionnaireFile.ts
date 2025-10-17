@@ -18,14 +18,12 @@ export interface QuestionnaireFile {
      * 用户作答提示（**需要持续提示**的作答提示或须知）
      * * 在准备答题页面会以加粗红色字样显示
      * * 作答时会以一个卡片的形式展示在页面顶部
-     * * 支持 `HTML` 标签
      */
     answerTips: string;
     /**
      * 作答结果解释
-     * * 支持 `HTML` 标签
      */
-    resultTips: string;
+    resultTips?: string;
     /**
      * 题目来源（引用）
      * 比如从哪儿找到题目，从哪儿找的评分标准之类的
@@ -56,7 +54,7 @@ export interface Option {
     /**
      * 选项内容
      */
-    name: string;
+    label: string;
     /**
      * 选项分值
      */
@@ -81,7 +79,7 @@ export interface Question {
     /**
      * 题目内容（题干）
      */
-    content: string;
+    question: string;
     /**
      * 反向评分（可选，默认为空）
      * * 开启后选项分值会进行反转，而不会反转选项内容（如选项1-3，它们的分值为1-3；反转后选项3-1，它们的分值变为3-1）
@@ -109,7 +107,7 @@ export interface ScoringMethod {
      * * * `average` 求和后取平均分（只返回平均分）
      * * * `weighted` 求和后将结果乘以一个权重值（需要设置`weighted`字段）
      */
-    method: Method | string;
+    method: Method;
     /**
      * 权重值（仅在`method`为`weighted`时需要设置）
      * * 不填写默认为`1`

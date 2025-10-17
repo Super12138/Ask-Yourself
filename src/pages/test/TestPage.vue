@@ -67,12 +67,12 @@ onMounted(() => {
                     <template v-else-if="currentQuestion < questionnaireData.questions.length">
                         <template
                             v-for="(questionData, index) in questionnaireData.questions"
-                            :key="questionData.content"
+                            :key="questionData.question"
                         >
                             <Question
                                 v-if="currentQuestion === index"
                                 :index="index + 1"
-                                :question="questionData.content"
+                                :question="questionData.question"
                                 :options="questionnaireData.options"
                                 :reverse="questionData.reverse"
                                 @selected="onQuestionSelected"
