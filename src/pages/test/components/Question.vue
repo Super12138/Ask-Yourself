@@ -4,13 +4,13 @@ import "mdui/components/radio.js";
 import "mdui/components/list-item.js";
 import "mdui/components/list.js";
 
-import type { OptionItem } from "@/types/QuestionnaireFile";
+import type { Option } from "@/types/QuestionnaireFile";
 import type { RadioGroup } from "mdui/components/radio-group.js";
 
 defineProps<{
     index: number;
     question: string;
-    options: OptionItem[];
+    options: Option[];
     reverse?: boolean;
 }>();
 

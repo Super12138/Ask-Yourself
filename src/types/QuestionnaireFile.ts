@@ -1,5 +1,5 @@
-export type Colors = "green" | "yellow" | "orange" | "red";
-export type Method = "plus" | "average" | "multiply" | "division";
+export type Colors = "default" | "green" | "yellow" | "orange" | "red";
+export type Method = "sum" | "average" | "weighted";
 
 /**
  * 量表题目文件
@@ -34,25 +34,25 @@ export interface QuestionnaireFile {
     references: string[];
     /**
      * 题目选项
-     * @type {OptionItem[]}
+     * @type {Option[]}
      */
-    options: OptionItem[];
+    options: Option[];
     /**
      * 题目
-     * @type {QuestionItem[]}
+     * @type {Question[]}
      */
-    questions: QuestionItem[];
+    questions: Question[];
     /**
      * 评分标准
-     * @type {Scoring[]}
+     * @type {ScoringMethod[]}
      */
-    scoring: Scoring[];
+    scoring: ScoringMethod[];
 }
 
 /**
  * 单个选项
  */
-export interface OptionItem {
+export interface Option {
     /**
      * 选项内容
      */
@@ -66,7 +66,7 @@ export interface OptionItem {
 /**
  * 单个题目
  */
-export interface QuestionItem {
+export interface Question {
     /**
      * 题目 Id
      * * 可选，不作为真正题目 Id
@@ -92,7 +92,7 @@ export interface QuestionItem {
 /**
  * 评分标准组
  */
-export interface Scoring {
+export interface ScoringMethod {
     /**
      * 组 Id
      * 需要和题目的`组 Id` **完全对应**
@@ -105,43 +105,45 @@ export interface Scoring {
     /**
      * 计算方法
      * * 该评分组的计算方法，支持下方四种方法：
-     * * * `plus` 全部求和
+     * * * `sum` 全部求和
      * * * `average` 求和后取平均分（只返回平均分）
-     * * * `multiply` 求和后将结果翻指定倍数。需要添加参数，用`,`分隔。
-     * * * * 第一个参数是倍数，如`multiply, 2`
-     * * * `division` 求和后将结果除以指定数。需要添加参数，用`,`分隔。
-     * * * * 第一个参数是除数，第二个参数是保留小数位数，如`division, 2, 2`表示把结果除以2，并把得数保留两位小数
+     * * * `weighted` 求和后将结果乘以一个权重值（需要设置`weighted`字段）
      */
     method: Method | string;
     /**
+     * 权重值（仅在`method`为`weighted`时需要设置）
+     * * 不填写默认为`1`
+     */
+    weighted?: number;
+    /**
      * 分数的分值范围，用来规定分数的范围，比如规定`轻度`、`中度`的分界
      */
-    ranges: Range[];
+    ranges: ScroingRange[];
 }
 
 /**
  * 单个分值范围
  */
-export interface Range {
+export interface ScroingRange {
     /**
      * 范围名称（如`轻度`、`中度`等）
      */
     name: string;
     /**
      * 显示文字的颜色，可选值：
-     * * green 绿色
-     * * yellow 黄色
-     * * orange 橙色
-     * * red 红色
-     * * 啥也不填就是默认颜色
+     * * `default` 默认颜色
+     * * `green` 绿色
+     * * `yellow` 黄色
+     * * `orange` 橙色
+     * * `red` 红色
      */
-    color: Colors | string;
+    color: Colors;
     /**
-     * 范围最小值（可以取等）
+     * 范围最小值（取等）
      */
     min: number;
     /**
-     * 范围最大值（可以取等）
+     * 范围最大值（取等）
      */
     max: number;
 }
