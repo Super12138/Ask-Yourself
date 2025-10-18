@@ -5,8 +5,9 @@ import "@mdui/icons/arrow-back--outlined.js";
 import "@mdui/icons/arrow-forward--outlined.js";
 import "@mdui/icons/check--outlined.js";
 
-defineProps<{
+const props = defineProps<{
     totalQuestion: number;
+    canNext: boolean;
 }>();
 
 const emit = defineEmits<{
@@ -32,7 +33,7 @@ const currentQuestion = defineModel<number>();
                 上一题
             </mdui-button>
             <mdui-button
-                :disabled="currentQuestion == totalQuestion - 1"
+                :disabled="currentQuestion == totalQuestion - 1 || props.canNext === false"
                 v-if="currentQuestion < totalQuestion - 1"
                 @click="currentQuestion++"
             >
@@ -41,7 +42,11 @@ const currentQuestion = defineModel<number>();
                 ></mdui-icon-arrow-forward--outlined>
                 下一题
             </mdui-button>
-            <mdui-button v-else @click="emit('finish')">
+            <mdui-button
+                :disabled="currentQuestion < totalQuestion - 1 || props.canNext === false"
+                v-else
+                @click="emit('finish')"
+            >
                 <mdui-icon-check--outlined slot="end-icon"></mdui-icon-check--outlined>
                 提交
             </mdui-button>

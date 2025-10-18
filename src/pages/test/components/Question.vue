@@ -11,6 +11,7 @@ defineProps<{
     index: number;
     question: string;
     options: Option[];
+    selected?: number;
     reverse?: boolean;
 }>();
 
@@ -22,6 +23,7 @@ const emit = defineEmits<{
 <template>
     <p>{{ `${index}. ${question}` }}</p>
     <mdui-radio-group
+        :value="selected"
         @change="
             (e: CustomEvent<void> & Event) => {
                 emit('selected', Number.parseInt((e.target as RadioGroup).value));
