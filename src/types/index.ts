@@ -25,13 +25,6 @@ export interface Answer {
 /**
  * 分好组的数据
  */
-export interface GroupedData {
-    /**
-     * 评分组 Id
-     */
-    groupId: number[];
-    /**
-     * 该评分组内的所有题目的答案分值
-     */
-    data: number[];
+export interface GroupedAnswer {
+    [groupId: number]: number[];
 }

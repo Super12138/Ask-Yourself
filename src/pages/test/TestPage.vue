@@ -13,16 +13,18 @@ import type { QuestionnaireFile } from "@/types/QuestionnaireFile";
 
 import LoadingTip from "@/components/LoadingTip.vue";
 import FadeOutInTransition from "@/components/transition/FadeOutInTransition.vue";
-import gad7Questionnaire from "@/test-only-questionnaire/gad7";
-import { TestState, type Answer } from "@/types";
+import { scl90 } from "@/test-only-questionnaire/scl90.1";
+import { TestState, type Answer, type GroupedAnswer } from "@/types";
 import { useFetch } from "@vueuse/core";
 import { computed, onMounted, ref, watch } from "vue";
 import { RouterLink, useRoute } from "vue-router";
+import AnsweringProgress from "./components/AnsweringProgress.vue";
 import ControlPanel from "./components/ControlPanel.vue";
 import Question from "./components/Question.vue";
 import Result from "./components/Result.vue";
 import Start from "./components/Start.vue";
-import { scl90 } from "@/test-only-questionnaire/scl90";
+import gad7Questionnaire from "@/test-only-questionnaire/gad7";
+import { multiGIDTest } from "@/test-only-questionnaire/multi-gid";
 
 const route = useRoute();
 
@@ -33,6 +35,8 @@ const { isFetching, error, data } = useFetch<string>(
 const questionnaireData = ref<QuestionnaireFile>();
 const currentQuestion = ref(-1);
 const answers = ref<Answer[]>([]);
+const groupedAnswers = ref<GroupedAnswer>();
+
 const testState = computed<TestState>(() => {
     if (currentQuestion.value === -1) {
         return TestState.Start;
@@ -47,7 +51,7 @@ const testState = computed<TestState>(() => {
 });
 
 // From Agent
-const onQuestionSelected = (value: number) => {
+const onQuestionSelected = (score: number) => {
     // value 是由 Question.vue 发出的选项分值（option.score）
     const qIndex = currentQuestion.value;
     if (!questionnaireData.value) {
@@ -59,9 +63,9 @@ const onQuestionSelected = (value: number) => {
     // const groupId = question?.groupId ?? 0;
     const groupId = question.groupId;
 
-    const entry = { questionIndex: qIndex, groupId, score: value };
+    const entry: Answer = { questionIndex: qIndex, groupId, score };
 
-    // 使用 splice 保证按题目索引写入（便于后续按索引访问或覆盖）
+    // 在 qIndex 位置删除1项，并插入用户答案
     answers.value.splice(qIndex, 1, entry);
 
     // 向后移动到下一题
@@ -70,21 +74,35 @@ const onQuestionSelected = (value: number) => {
     }
 };
 
+const onFinish = () => {
+    let groupedAnswer: GroupedAnswer = answers.value.reduce((accumulator, currentValue) => {
+        console.log(accumulator);
+        currentValue.groupId.forEach((groupId) => {
+            if (!accumulator[groupId]) {
+                accumulator[groupId] = [];
+            }
+            accumulator[groupId].push(currentValue.score);
+        });
+        return accumulator;
+    }, {} as GroupedAnswer);
+    groupedAnswers.value = groupedAnswer;
+    currentQuestion.value += 1;
+};
+
 watch(data, (value) => {
     if (!value) return;
     // questionnaireData.value = JSON.parse(value) as QuestionnaireFile;
-    questionnaireData.value = scl90;
+    questionnaireData.value = multiGIDTest;
 });
 
 const canNext = computed(() => {
     // 当在起始页时允许开始
     if (currentQuestion.value === -1) return true;
     if (!questionnaireData.value) return false;
-    // 如果已经到了结果页或超出范围，允许继续（用于防御性编程）
-    if (currentQuestion.value >= questionnaireData.value.questions.length) return true;
+    if (currentQuestion.value > questionnaireData.value.questions.length) return false;
 
     const entry = answers.value[currentQuestion.value];
-    return !!entry && typeof entry.score === "number";
+    return entry !== undefined;
 });
 
 onMounted(() => {
@@ -95,8 +113,8 @@ onMounted(() => {
 <template>
     <mdui-layout>
         <mdui-top-app-bar scroll-behavior="elevate" variant="small" scroll-target="#container">
-            <RouterLink to="/" custom v-slot="{ isActive, href, navigate }">
-                <mdui-button-icon :disabled="isActive" :href="href" @click="navigate">
+            <RouterLink to="/" custom v-slot="{ href, navigate }">
+                <mdui-button-icon :href="href" @click="navigate">
                     <mdui-icon-arrow-back--outlined></mdui-icon-arrow-back--outlined>
                 </mdui-button-icon>
             </RouterLink>
@@ -113,6 +131,11 @@ onMounted(() => {
                         :references="questionnaireData.references"
                     />
                     <template v-else-if="testState === TestState.InProgress">
+                        <AnsweringProgress
+                            :current="currentQuestion"
+                            :answered="answers.length"
+                            :total="questionnaireData.questions.length"
+                        />
                         <template
                             v-for="(questionData, index) in questionnaireData.questions"
                             :key="questionData.question"
@@ -129,16 +152,16 @@ onMounted(() => {
                         </template>
                     </template>
                     <Result
-                        :user-answers="answers"
+                        :grouped-answers="groupedAnswers"
                         :scoring-method="questionnaireData.scoring"
                         v-else
                     />
                     <ControlPanel
                         v-if="testState !== TestState.Finished"
                         v-model="currentQuestion"
-                        :total-question="questionnaireData.questions.length"
+                        :total="questionnaireData.questions.length"
                         :can-next="canNext"
-                        @finish="currentQuestion += 1"
+                        @finish="onFinish"
                     />
                 </div>
 

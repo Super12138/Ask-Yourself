@@ -2,7 +2,7 @@ import type { QuestionnaireFile } from "@/types/QuestionnaireFile";
 
 export const scl90: QuestionnaireFile = {
     name: "SCL-90（90 项症状清单）",
-    author: "L.R. Derogatis 等人；王征宇译",
+    author: "L.R. Derogatis 等，王征宇译",
     year: 1986,
     description:
         "SCL-90（Symptom Checklist-90）是一个有 90 项的症状自评量表。它一共有9个因子，覆盖面较广，可以准确地反映被试的自觉症状和问题及其严重程度和变化。（提示：该量表是精神症状（心理问题）筛查量表，而不是精神疾病诊断量表。其划界分是研究者提出的参考标准，即被试者超过该标准也并不意味着肯定有精神障碍或心理问题，仅提示其需要接受专业人员的进一步检查。）",

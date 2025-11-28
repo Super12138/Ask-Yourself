@@ -1,16 +1,18 @@
 <script setup lang="ts">
-import "mdui/components/radio-group.js";
-import "mdui/components/radio.js";
 import "mdui/components/list-item.js";
 import "mdui/components/list.js";
+import "@mdui/icons/circle--outlined.js";
+import "@mdui/icons/check-circle--outlined.js";
 
 import type { Option } from "@/types/QuestionnaireFile";
-import type { RadioGroup } from "mdui/components/radio-group.js";
 
 defineProps<{
     index: number;
     question: string;
     options: Option[];
+    /**
+     * 已选择的选项的**分数**
+     */
     selected?: number;
     reverse?: boolean;
 }>();
@@ -21,34 +23,33 @@ const emit = defineEmits<{
 </script>
 
 <template>
-    <p>{{ `${index}. ${question}` }}</p>
-    <mdui-radio-group
-        :value="selected"
-        @change="
-            (e: CustomEvent<void> & Event) => {
-                emit('selected', Number.parseInt((e.target as RadioGroup).value));
-            }
-        "
-    >
-        <mdui-radio v-for="option in options" :value="option.score" :key="option.score">
-            {{ option.label }}
-        </mdui-radio>
-    </mdui-radio-group>
-    <!-- <mdui-list>
+    <div class="question">{{ `${index}. ${question}` }}</div>
+    <mdui-list>
         <mdui-list-item
             rounded
             v-for="option in options"
             :value="option.score"
             :key="option.score"
-            :headline="option.name"
+            :headline="option.label"
+            @click="emit('selected', option.score)"
         >
-            <mdui-radio slot="icon"></mdui-radio>
+            <mdui-icon-circle--outlined
+                v-if="selected !== option.score"
+                slot="icon"
+            ></mdui-icon-circle--outlined>
+            <mdui-icon-check-circle--outlined v-else slot="icon"></mdui-icon-check-circle--outlined>
         </mdui-list-item>
-    </mdui-list> -->
+    </mdui-list>
 </template>
 
 <style lang="css" scoped>
-mdui-radio {
-    width: 100%;
+.question {
+    margin: 1.5rem 0.5rem 0 0.5rem;
+    display: block;
+    color: rgb(var(--mdui-color-on-surface));
+    font-size: var(--mdui-typescale-body-large-size);
+    font-weight: var(--mdui-typescale-body-large-weight);
+    letter-spacing: var(--mdui-typescale-body-large-tracking);
+    line-height: var(--mdui-typescale-body-large-line-height);
 }
 </style>

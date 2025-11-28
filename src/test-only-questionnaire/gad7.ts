@@ -2,7 +2,7 @@ import type { QuestionnaireFile } from "@/types/QuestionnaireFile";
 
 const gad7Questionnaire: QuestionnaireFile = {
     name: "GAD-7（广泛性焦虑）",
-    author: "Robert L. Spitzer 等人",
+    author: "Robert L. Spitzer 等",
     year: 2006,
     description:
         "GAD-7（Generalized Anxiety Disorder-7）心理状况筛查量表是一种常用于评估广泛性焦虑障碍的工具。该量表由七个问题组成，用于评估受访者在过去两周内的焦虑症状频率和严重程度。通过计分的方式，可以快速了解一个人是否存在焦虑症状及其严重程度。",

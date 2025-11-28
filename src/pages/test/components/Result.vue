@@ -1,23 +1,27 @@
 <script setup lang="ts">
-import type { Answer } from "@/types";
+import type { GroupedAnswer } from "@/types";
 import type { ScoringMethod } from "@/types/QuestionnaireFile";
+import { watch } from "vue";
 
 const props = defineProps<{
-    userAnswers?: Answer[];
+    groupedAnswers: GroupedAnswer;
     scoringMethod: ScoringMethod[];
 }>();
+
+watch(
+    () => props.groupedAnswers,
+    (answers) => {
+        if (!answers) return;
+    },
+    { immediate: true },
+);
 </script>
 
 <template>
     <h1>Result</h1>
-    <div v-if="userAnswers">
+    <div v-if="groupedAnswers">
         <h2>Your Answers:</h2>
-        <ul>
-            <li v-for="(answer, index) in userAnswers">
-                Question {{ index }} (GroupId: <code>[{{ answer.groupId.join(", ") }}]</code>):
-                Score = {{ answer.score }}
-            </li>
-        </ul>
+        <p>{{ groupedAnswers }}</p>
 
         <h2>Scoring Method:</h2>
         <ul>
