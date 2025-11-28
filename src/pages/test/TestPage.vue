@@ -13,7 +13,6 @@ import type { QuestionnaireFile } from "@/types/QuestionnaireFile";
 
 import LoadingTip from "@/components/LoadingTip.vue";
 import FadeOutInTransition from "@/components/transition/FadeOutInTransition.vue";
-import { scl90 } from "@/test-only-questionnaire/scl90.1";
 import { TestState, type Answer, type GroupedAnswer } from "@/types";
 import { useFetch } from "@vueuse/core";
 import { computed, onMounted, ref, watch } from "vue";
@@ -126,6 +125,8 @@ onMounted(() => {
                     <Start
                         v-if="testState === TestState.Start"
                         :name="questionnaireData.name"
+                        :author="questionnaireData.author"
+                        :year="questionnaireData.year"
                         :description="questionnaireData.description"
                         :answer-tips="questionnaireData.answerTips"
                         :references="questionnaireData.references"
