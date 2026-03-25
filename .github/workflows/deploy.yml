@@ -61,4 +61,4 @@ jobs:
       - name: Deploy to GitHub Pages
         if: success() && github.event_name != 'pull_request' && github.repository == 'Super12138/Ask-Yourself'
         id: deployment
-        uses: actions/deploy-pages@v4.0.5
+        uses: actions/deploy-pages@v5.0.0
