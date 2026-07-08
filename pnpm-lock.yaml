@@ -17,7 +17,7 @@ importers:
         version: 1.0.3
       '@types/node':
         specifier: ^24.5.2
-        version: 24.13.2
+        version: 24.13.3
       '@vite-pwa/assets-generator':
         specifier: ^1.0.1
         version: 1.0.2
@@ -32,13 +32,13 @@ importers:
         version: 5.9.3
       vite:
         specifier: ^8.0.0
-        version: 8.1.3(@types/node@24.13.2)(jiti@2.6.1)(terser@5.48.0)(yaml@2.9.0)
+        version: 8.1.3(@types/node@24.13.3)(jiti@2.6.1)(terser@5.48.0)(yaml@2.9.0)
       vite-plugin-html:
         specifier: ^3.2.2
-        version: 3.2.2(vite@8.1.3(@types/node@24.13.2)(jiti@2.6.1)(terser@5.48.0)(yaml@2.9.0))
+        version: 3.2.2(vite@8.1.3(@types/node@24.13.3)(jiti@2.6.1)(terser@5.48.0)(yaml@2.9.0))
       vite-plugin-pwa:
         specifier: ^1.0.3
-        version: 1.3.0(@vite-pwa/assets-generator@1.0.2)(vite@8.1.3(@types/node@24.13.2)(jiti@2.6.1)(terser@5.48.0)(yaml@2.9.0))(workbox-build@7.3.0)(workbox-window@7.4.1)
+        version: 1.3.0(@vite-pwa/assets-generator@1.0.2)(vite@8.1.3(@types/node@24.13.3)(jiti@2.6.1)(terser@5.48.0)(yaml@2.9.0))(workbox-build@7.3.0)(workbox-window@7.4.1)
       workbox-core:
         specifier: ^7.3.0
         version: 7.4.1
@@ -947,8 +947,8 @@ packages:
   '@types/hast@3.0.4':
     resolution: {integrity: sha512-WPs+bbQw5aCj+x6laNGWLH3wviHtoCv/P3+otBhbOhJgG8qtpdAMlTCxLtsTWA7LH1Oh/bFCHsBn0TPS5m30EQ==}
 
-  '@types/node@24.13.2':
-    resolution: {integrity: sha512-fRa09kZTgu8o71KFcDjUFuc7F+dEbZYZmkI0mg5YBTRs0yMKjYHsq/c0urDKeDb+D5qVgXOdFcuu+DZPKOITwA==}
+  '@types/node@24.13.3':
+    resolution: {integrity: sha512-Dh8vAsV36ig5wa9OX4pXvMc9D3Veibfw2wix0CUwYODLD8nkj9UsLjASr49nPg+2eKzxhBV+v7L8pXvT4e639Q==}
 
   '@types/resolve@1.20.2':
     resolution: {integrity: sha512-60BCwRFOZCQhDncwQdxxeOEEkbc5dIMccYLwbxsS4TUNeVECQ/pBJ0j09mrHOl/JJvpRPGwO9SvE4nR2Nb/a4Q==}
@@ -3300,7 +3300,7 @@ snapshots:
     dependencies:
       '@types/unist': 3.0.3
 
-  '@types/node@24.13.2':
+  '@types/node@24.13.3':
     dependencies:
       undici-types: 7.18.2
 
@@ -4649,7 +4649,7 @@ snapshots:
       escalade: 3.2.0
       picocolors: 1.1.1
 
-  vite-plugin-html@3.2.2(vite@8.1.3(@types/node@24.13.2)(jiti@2.6.1)(terser@5.48.0)(yaml@2.9.0)):
+  vite-plugin-html@3.2.2(vite@8.1.3(@types/node@24.13.3)(jiti@2.6.1)(terser@5.48.0)(yaml@2.9.0)):
     dependencies:
       '@rollup/pluginutils': 4.2.1
       colorette: 2.0.20
@@ -4663,14 +4663,14 @@ snapshots:
       html-minifier-terser: 6.1.0
       node-html-parser: 5.4.2
       pathe: 0.2.0
-      vite: 8.1.3(@types/node@24.13.2)(jiti@2.6.1)(terser@5.48.0)(yaml@2.9.0)
+      vite: 8.1.3(@types/node@24.13.3)(jiti@2.6.1)(terser@5.48.0)(yaml@2.9.0)
 
-  vite-plugin-pwa@1.3.0(@vite-pwa/assets-generator@1.0.2)(vite@8.1.3(@types/node@24.13.2)(jiti@2.6.1)(terser@5.48.0)(yaml@2.9.0))(workbox-build@7.3.0)(workbox-window@7.4.1):
+  vite-plugin-pwa@1.3.0(@vite-pwa/assets-generator@1.0.2)(vite@8.1.3(@types/node@24.13.3)(jiti@2.6.1)(terser@5.48.0)(yaml@2.9.0))(workbox-build@7.3.0)(workbox-window@7.4.1):
     dependencies:
       debug: 4.4.3
       pretty-bytes: 6.1.1
       tinyglobby: 0.2.16
-      vite: 8.1.3(@types/node@24.13.2)(jiti@2.6.1)(terser@5.48.0)(yaml@2.9.0)
+      vite: 8.1.3(@types/node@24.13.3)(jiti@2.6.1)(terser@5.48.0)(yaml@2.9.0)
       workbox-build: 7.3.0
       workbox-window: 7.4.1
     optionalDependencies:
@@ -4678,7 +4678,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  vite@8.1.3(@types/node@24.13.2)(jiti@2.6.1)(terser@5.48.0)(yaml@2.9.0):
+  vite@8.1.3(@types/node@24.13.3)(jiti@2.6.1)(terser@5.48.0)(yaml@2.9.0):
     dependencies:
       lightningcss: 1.32.0
       picomatch: 4.0.4
@@ -4686,7 +4686,7 @@ snapshots:
       rolldown: 1.1.3
       tinyglobby: 0.2.17
     optionalDependencies:
-      '@types/node': 24.13.2
+      '@types/node': 24.13.3
       fsevents: 2.3.3
       jiti: 2.6.1
       terser: 5.48.0
