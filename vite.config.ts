@@ -1,10 +1,10 @@
 import { exec } from 'child_process';
 import path from 'path';
 import { promisify } from 'util';
-import { defineConfig } from 'vite';
+import { defineConfig, UserConfig } from 'vite';
 import { createHtmlPlugin } from 'vite-plugin-html';
 import { VitePWA } from 'vite-plugin-pwa';
-import packageJson from './package.json';
+import packageJson from './package.json' with { type: 'json' };
 
 const execPromise = promisify(exec);
 
@@ -22,16 +22,23 @@ async function getVersionInfo() {
     }
 }
 
-export default defineConfig(async ({ command, mode, isSsrBuild, isPreview }) => {
+export default defineConfig(async ({ command }) => {
     const { versionCode, commitHash } = await getVersionInfo();
-    const baseConfig = {
+    const baseConfig: UserConfig = {
         build: {
-            rollupOptions: {
+            rolldownOptions: {
                 input: {
-                    index: path.resolve(__dirname, 'index.html'),
-                    list: path.resolve(__dirname, 'list.html'),
-                    test: path.resolve(__dirname, 'test.html'),
-                    settings: path.resolve(__dirname, 'settings.html'),
+                    index: path.resolve(import.meta.dirname, 'index.html'),
+                    list: path.resolve(import.meta.dirname, 'list.html'),
+                    test: path.resolve(import.meta.dirname, 'test.html'),
+                    settings: path.resolve(import.meta.dirname, 'settings.html'),
+                },
+                output: {
+                    manualChunks(id) {
+                        if (id.includes("mdui")) {
+                            return "mdui";
+                        }
+                    },
                 },
             },
         },
@@ -86,10 +93,7 @@ export default defineConfig(async ({ command, mode, isSsrBuild, isPreview }) => 
         return {
             ...baseConfig,
             server: {
-                open: true,
-                hmr: {
-                    protocol: "ws",
-                }
+                open: true
             },
             define: {
                 VERSION_NAME: JSON.stringify(packageJson.version),
