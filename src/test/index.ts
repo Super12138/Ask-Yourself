@@ -1,70 +1,68 @@
-import 'mdui/components/button.js';
-import 'mdui/components/card.js';
-import 'mdui/components/circular-progress.js';
-import 'mdui/components/linear-progress.js';
-import 'mdui/components/radio-group.js';
-import 'mdui/components/radio.js';
+import "mdui/components/button.js";
+import "mdui/components/card.js";
+import "mdui/components/circular-progress.js";
+import "mdui/components/linear-progress.js";
+import "mdui/components/radio-group.js";
+import "mdui/components/radio.js";
+import type { Button } from "mdui/components/button.js";
+import type { LinearProgress } from "mdui/components/linear-progress.js";
+import type { TopAppBarTitle } from "mdui/components/top-app-bar-title.js";
+import "@mdui/icons/arrow-back--outlined.js";
+import "@mdui/icons/arrow-forward--outlined.js";
+import "@mdui/icons/check--outlined.js";
+import "@mdui/icons/tips-and-updates--outlined.js";
 
-import type { Button } from 'mdui/components/button.js';
-import type { LinearProgress } from 'mdui/components/linear-progress.js';
-import type { TopAppBarTitle } from 'mdui/components/top-app-bar-title.js';
+import { AnswerData, BasicScoreResult, ButtonType, GroupedData, QuestionnaireFile, ScoreResult, Scoring } from "../interfaces";
+import { hide, show } from "../utils/element";
+import { getFile } from "../utils/network";
+import { showKeyboardNotice } from "../utils/notices";
+import { Question } from "./question";
+import { getScore, SCL90Score } from "./scoring";
 
-import '@mdui/icons/arrow-back--outlined.js';
-import '@mdui/icons/arrow-forward--outlined.js';
-import '@mdui/icons/check--outlined.js';
-import '@mdui/icons/tips-and-updates--outlined.js';
-
-import { AnswerData, BasicScoreResult, ButtonType, GroupedData, QuestionnaireFile, ScoreResult, Scoring } from '../interfaces';
-import { hide, show } from '../utils/element';
-import { getFile } from '../utils/network';
-import { showKeyboardNotice } from '../utils/notices';
-import { Question } from './question';
-import { getScore, SCL90Score } from './scoring';
-
-const appTitle: TopAppBarTitle = document.querySelector('#appTitle')!;
+const appTitle: TopAppBarTitle = document.querySelector("#appTitle")!;
 const url: URL = new URL(window.location.href);
 const questionnaire: string | null = url.searchParams.get("name");
 
 enum NextButtonType {
     START,
     NEXT,
-    SUBMIT
+    SUBMIT,
 }
 
-let currentNextBtnType: NextButtonType = NextButtonType.NEXT
+let currentNextBtnType: NextButtonType = NextButtonType.NEXT;
 let currentQuestion: number = 0; // 当前题目
 
 let questions: Question[] = []; // 所有题目对象
 
 const buttonType: ButtonType[] = [
     {
-        name: '开始',
-        icon: 'arrow-forward--outlined'
+        name: "开始",
+        icon: "arrow-forward--outlined",
     },
     {
-        name: '下一题',
-        icon: 'arrow-forward--outlined'
+        name: "下一题",
+        icon: "arrow-forward--outlined",
     },
     {
-        name: '提交',
-        icon: 'check--outlined'
-    }
+        name: "提交",
+        icon: "check--outlined",
+    },
 ];
 
-document.addEventListener('testPageLoaded', async () => {
-    const container: HTMLDivElement = document.querySelector('#testContainer')!;
-    const nullTip: HTMLParagraphElement = document.querySelector('#nullTip')!;
-    const loadingTip: HTMLDivElement = document.querySelector('#loadingTip')!;
-    const referencesElement: HTMLDivElement = document.querySelector('#references')!;
-    const previousBtn: Button = document.querySelector('.prev-btn')!;
-    const nextBtn: Button = document.querySelector('.next-btn')!;
-    const progressBar: LinearProgress = document.querySelector('.progress-bar')!;
-    const progressText: HTMLSpanElement = document.querySelector('#progressText')!;
+document.addEventListener("testPageLoaded", async () => {
+    const container: HTMLDivElement = document.querySelector("#testContainer")!;
+    const nullTip: HTMLParagraphElement = document.querySelector("#nullTip")!;
+    const loadingTip: HTMLDivElement = document.querySelector("#loadingTip")!;
+    const referencesElement: HTMLDivElement = document.querySelector("#references")!;
+    const previousBtn: Button = document.querySelector(".prev-btn")!;
+    const nextBtn: Button = document.querySelector(".next-btn")!;
+    const progressBar: LinearProgress = document.querySelector(".progress-bar")!;
+    const progressText: HTMLSpanElement = document.querySelector("#progressText")!;
 
-    const testArea: HTMLDivElement = document.querySelector('#testArea')!;
-    const controlArea: HTMLDivElement = document.querySelector('#controlArea')!;
-    const introPart: HTMLDivElement = document.querySelector('#introPart')!;
-    const resultArea: HTMLDivElement = document.querySelector('#resultArea')!;
+    const testArea: HTMLDivElement = document.querySelector("#testArea")!;
+    const controlArea: HTMLDivElement = document.querySelector("#controlArea")!;
+    const introPart: HTMLDivElement = document.querySelector("#introPart")!;
+    const resultArea: HTMLDivElement = document.querySelector("#resultArea")!;
 
     // 首先判断有没有试题，减少不必要的网络请求
     if (questionnaire === null) {
@@ -84,7 +82,7 @@ document.addEventListener('testPageLoaded', async () => {
             setTimeout(() => {
                 hide(loadingTip);
                 container.style.opacity = "1";
-            }, 100)
+            }, 100);
             show(container);
             const json: QuestionnaireFile = JSON.parse(response); // 解析量表json
             const jsonName: string = json.name;
@@ -104,25 +102,27 @@ document.addEventListener('testPageLoaded', async () => {
                 questions.push(questionItem);
             }
 
-            document.querySelector<HTMLParagraphElement>('#questionnaireDescription')!.textContent = json.description; // 将问卷描述设置为问卷描述
-            document.querySelectorAll<HTMLElement>('#questionnaireTips')!.forEach((element: HTMLElement) => {
+            document.querySelector<HTMLParagraphElement>("#questionnaireDescription")!.textContent = json.description; // 将问卷描述设置为问卷描述
+            document.querySelectorAll<HTMLElement>("#questionnaireTips")!.forEach((element: HTMLElement) => {
                 element.textContent = json.answerTips; // 将提示设置为问卷提示
             });
 
-            for (const link of json.references) { // 将引用内容上屏
-                if (link.includes("http")) { // 判断是不是URL
-                    const a: HTMLAnchorElement = document.createElement('a');
-                    const br: HTMLBRElement = document.createElement('br');
-                    a.target = '_blank'; // 在新页面打开链接
+            for (const link of json.references) {
+                // 将引用内容上屏
+                if (link.includes("http")) {
+                    // 判断是不是URL
+                    const a: HTMLAnchorElement = document.createElement("a");
+                    const br: HTMLBRElement = document.createElement("br");
+                    a.target = "_blank"; // 在新页面打开链接
                     a.href = link;
-                    a.classList.add('link');
+                    a.classList.add("link");
                     a.textContent = link;
                     referencesElement.appendChild(a);
                     referencesElement.appendChild(br);
                 } else {
-                    const p: HTMLParagraphElement = document.createElement('p');
+                    const p: HTMLParagraphElement = document.createElement("p");
                     p.textContent = link;
-                    p.classList.add('link');
+                    p.classList.add("link");
                     referencesElement.appendChild(p);
                 }
             }
@@ -137,21 +137,20 @@ document.addEventListener('testPageLoaded', async () => {
             };
 
             function checkQuestionChecked(id: number) {
-                const checkQuestion = questions[id - 1].html.querySelector('mdui-radio-group')!;
+                const checkQuestion = questions[id - 1].html.querySelector("mdui-radio-group")!;
                 if (checkQuestion.value) {
                     nextBtn.disabled = false;
                 } else {
                     nextBtn.disabled = true;
                     const radioChangeListener = () => {
                         nextBtn.disabled = false;
-                        checkQuestion.removeEventListener('change', radioChangeListener);
+                        checkQuestion.removeEventListener("change", radioChangeListener);
                     };
-                    checkQuestion.addEventListener('change', radioChangeListener);
+                    checkQuestion.addEventListener("change", radioChangeListener);
                 }
             }
 
-
-            nextBtn.addEventListener('click', () => {
+            nextBtn.addEventListener("click", () => {
                 switch (currentNextBtnType) {
                     case NextButtonType.NEXT: // “下一题”按钮
                         currentQuestion += 1;
@@ -191,7 +190,7 @@ document.addEventListener('testPageLoaded', async () => {
                             const questionElement = question.html.querySelector("mdui-radio-group")!;
                             userAnswerData.push({
                                 groupId: question.groupId,
-                                score: Number.parseInt(questionElement.value, 10)
+                                score: Number.parseInt(questionElement.value, 10),
                             });
                         });
 
@@ -207,16 +206,16 @@ document.addEventListener('testPageLoaded', async () => {
                         // 获取评分组
                         const scoring: Scoring[] = json.scoring;
 
-                        const resultTbody: HTMLTableSectionElement = document.querySelector('#resultTbody')!;
+                        const resultTbody: HTMLTableSectionElement = document.querySelector("#resultTbody")!;
 
                         // SCL90 量表额外计算
-                        if (questionnaire.includes('scl90')) {
+                        if (questionnaire.includes("scl90")) {
                             SCL90Score(userAnswerData).forEach((item: BasicScoreResult) => {
-                                const itemContainer: HTMLTableRowElement = document.createElement('tr');
+                                const itemContainer: HTMLTableRowElement = document.createElement("tr");
                                 // 项目名称
-                                const itemName: HTMLTableCellElement = document.createElement('td');
+                                const itemName: HTMLTableCellElement = document.createElement("td");
                                 // 得分
-                                const itemScore: HTMLTableCellElement = document.createElement('td');
+                                const itemScore: HTMLTableCellElement = document.createElement("td");
                                 itemName.textContent = item.name;
                                 itemScore.colSpan = 2;
                                 itemScore.textContent = item.result.toString();
@@ -230,13 +229,13 @@ document.addEventListener('testPageLoaded', async () => {
                         const score: ScoreResult[] = getScore(groupedQuestions, scoring);
                         // 将得分上屏
                         score.forEach((item: ScoreResult) => {
-                            const itemContainer: HTMLTableRowElement = document.createElement('tr');
+                            const itemContainer: HTMLTableRowElement = document.createElement("tr");
                             // 项目名称
-                            const itemName: HTMLTableCellElement = document.createElement('td');
+                            const itemName: HTMLTableCellElement = document.createElement("td");
                             // 得分
-                            const itemScore: HTMLTableCellElement = document.createElement('td');
+                            const itemScore: HTMLTableCellElement = document.createElement("td");
                             // 评价
-                            const itemComment: HTMLTableCellElement = document.createElement('td');
+                            const itemComment: HTMLTableCellElement = document.createElement("td");
                             itemName.textContent = item.name;
                             itemScore.textContent = item.result.toString();
                             itemComment.textContent = item.range;
@@ -251,7 +250,7 @@ document.addEventListener('testPageLoaded', async () => {
                         });
 
                         if (json.resultTips !== undefined) {
-                            document.querySelector<HTMLElement>('.result-tips')!.innerHTML = `结果解读说明（仅供参考，不作为诊断依据）<br><mdui-divider></mdui-divider>${json.resultTips}`;
+                            document.querySelector<HTMLElement>(".result-tips")!.innerHTML = `结果解读说明（仅供参考，不作为诊断依据）<br><mdui-divider></mdui-divider>${json.resultTips}`;
                         }
                         // 展示结果区域
                         show(resultArea);
@@ -267,7 +266,7 @@ document.addEventListener('testPageLoaded', async () => {
                 updateProgress();
             });
 
-            previousBtn.addEventListener('click', () => {
+            previousBtn.addEventListener("click", () => {
                 if (currentQuestion > 0) {
                     currentQuestion -= 1;
                     show(questions[currentQuestion].html);
@@ -280,15 +279,15 @@ document.addEventListener('testPageLoaded', async () => {
             });
 
             // 监听键盘左右键切换题目
-            window.addEventListener('keydown', (event: KeyboardEvent) => {
+            window.addEventListener("keydown", (event: KeyboardEvent) => {
                 switch (event.key) {
-                    case 'ArrowLeft':
+                    case "ArrowLeft":
                         if (currentQuestion > 0) {
                             previousBtn.click();
                         }
                         break;
 
-                    case 'ArrowRight':
+                    case "ArrowRight":
                         if (currentQuestion < questionnaireTotal && currentNextBtnType === 1) {
                             nextBtn.click();
                         }
@@ -298,7 +297,6 @@ document.addEventListener('testPageLoaded', async () => {
                         break;
                 }
             });
-
         })
         .catch((error: any) => {
             hide(container);

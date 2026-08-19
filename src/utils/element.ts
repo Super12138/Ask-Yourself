@@ -7,7 +7,7 @@
  * @param element 要显示的元素
  */
 export function show(element: HTMLElement) {
-    element.style.display = 'block';
+    element.style.display = "block";
 }
 
 /**
@@ -15,5 +15,5 @@ export function show(element: HTMLElement) {
  * @param element 要隐藏的元素
  */
 export function hide(element: HTMLElement) {
-    element.style.display = 'none';
+    element.style.display = "none";
 }

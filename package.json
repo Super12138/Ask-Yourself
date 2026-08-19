@@ -1,23 +1,24 @@
 {
     "name": "ask-yourself",
-    "private": true,
     "version": "1.0.0",
-    "type": "module",
-    "scripts": {
-        "dev": "vite",
-        "build": "tsc && vite build",
-        "preview": "vite preview"
+    "private": true,
+    "homepage": "https://github.com/Super12138/Ask-Yourself#readme",
+    "bugs": {
+        "url": "https://github.com/Super12138/Ask-Yourself/issues"
     },
+    "license": "GPL-3.0",
+    "author": "Super12138",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/Super12138/Ask-Yourself.git"
     },
-    "author": "Super12138",
-    "license": "GPL-3.0",
-    "bugs": {
-        "url": "https://github.com/Super12138/Ask-Yourself/issues"
+    "type": "module",
+    "scripts": {
+        "dev": "vite",
+        "build": "tsc && vite build",
+        "preview": "vite preview",
+        "format": "oxfmt"
     },
-    "homepage": "https://github.com/Super12138/Ask-Yourself#readme",
     "dependencies": {
         "mdui": "^2.1.5"
     },

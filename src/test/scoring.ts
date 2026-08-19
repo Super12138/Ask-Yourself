@@ -59,7 +59,7 @@ export function getScore(groupedQuestions: GroupedData, scoring: Scoring[]): Sco
                         name: groupName,
                         result: result,
                         range: range.name,
-                        color: range.color
+                        color: range.color,
                     });
                 }
             });
@@ -87,7 +87,7 @@ function getSum(scores: string[]): number {
 /**
  * SCL-90 量表特别适配
  * @param groupRadio 所有题目
- * @returns 
+ * @returns
  */
 export function SCL90Score(answerData: AnswerData[]): BasicScoreResult[] {
     // 计算总分&总均分
@@ -103,20 +103,20 @@ export function SCL90Score(answerData: AnswerData[]): BasicScoreResult[] {
         const score = group.score; // 当前分数
         sum += score; // 总和添加
         if (score >= 2) {
-            positiveCount++
+            positiveCount++;
             positiveTotal += score; // 阳性得分总和
-        };
+        }
         if (score === 1) negativeCount++;
     });
 
     const average: number = sum / answerData.length;
     const positiveAvg: number = positiveTotal / positiveCount;
 
-    scl90Score.push({ name: '总分', result: sum });
-    scl90Score.push({ name: '总均分', result: Number.parseInt(average.toFixed(2), 10) });
-    scl90Score.push({ name: '阳性项目数', result: positiveCount });
-    scl90Score.push({ name: '阴性项目数', result: negativeCount });
-    scl90Score.push({ name: '阳性症状均分', result: Number.parseInt(positiveAvg.toFixed(2), 10) });
+    scl90Score.push({ name: "总分", result: sum });
+    scl90Score.push({ name: "总均分", result: Number.parseInt(average.toFixed(2), 10) });
+    scl90Score.push({ name: "阳性项目数", result: positiveCount });
+    scl90Score.push({ name: "阴性项目数", result: negativeCount });
+    scl90Score.push({ name: "阳性症状均分", result: Number.parseInt(positiveAvg.toFixed(2), 10) });
 
     return scl90Score;
 }

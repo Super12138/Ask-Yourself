@@ -1,8 +1,8 @@
-import type { ListItem } from 'mdui/components/list-item.js';
+import type { ListItem } from "mdui/components/list-item.js";
 
-export type Colors = 'green' | 'yellow' | 'orange' | 'red';
-export type Languages = 'zh' | 'en';
-export type Method = 'plus' | 'average' | 'multiply' | 'division';
+export type Colors = "green" | "yellow" | "orange" | "red";
+export type Languages = "zh" | "en";
+export type Method = "plus" | "average" | "multiply" | "division";
 
 /**
  * 导航栏元素接口
@@ -118,7 +118,6 @@ export interface QuestionnairesList {
     categories: Category[];
 }
 
-
 // 量表文件类型接口
 
 /**
@@ -208,11 +207,11 @@ export interface Scoring {
     /**
      * 组Id
      */
-    groupId: number
+    groupId: number;
     /**
      * 该范围对外现实的名称
      */
-    name: string
+    name: string;
     /**
      * 计算方法
      * * `plus` 全部求和
@@ -223,7 +222,7 @@ export interface Scoring {
     /**
      * 分值范围
      */
-    ranges: Range[]
+    ranges: Range[];
 }
 
 /**
@@ -252,7 +251,6 @@ export interface Range {
      */
     max: number;
 }
-
 
 /**
  * 计算完成后评分接口

@@ -1,6 +1,7 @@
-import type { RadioGroup } from 'mdui/components/radio-group.js';
+import type { RadioGroup } from "mdui/components/radio-group.js";
+
 import { OptionItem } from "../interfaces";
-import { Option } from './option';
+import { Option } from "./option";
 
 export class Question {
     groupId: number;
@@ -13,9 +14,9 @@ export class Question {
      * @param content 题目内容
      */
     constructor(id: number, groupId: number, options: OptionItem[], content: string, reverse: boolean = false) {
-        const div: HTMLDivElement = document.createElement('div');
-        const radioGroup: RadioGroup = document.createElement('mdui-radio-group');
-        let currentScoreList = options.map(option => option.score);
+        const div: HTMLDivElement = document.createElement("div");
+        const radioGroup: RadioGroup = document.createElement("mdui-radio-group");
+        let currentScoreList = options.map((option) => option.score);
 
         // 反转选项分值（改动原列表）
         if (reverse) {
@@ -25,7 +26,7 @@ export class Question {
         radioGroup.name = groupId.toString();
         radioGroup.id = `questions-${id}`;
 
-        const questionContent: HTMLParagraphElement = document.createElement('p');
+        const questionContent: HTMLParagraphElement = document.createElement("p");
         // questionContent.textContent = `${id}. ${content}`;
         questionContent.textContent = content;
 
