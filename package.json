@@ -25,7 +25,7 @@
     "devDependencies": {
         "@mdui/icons": "^1.0.4",
         "@types/node": "^26.2.0",
-        "@vite-pwa/assets-generator": "^1.0.2",
+        "@vite-pwa/assets-generator": "^2.0.0",
         "oxfmt": "^0.63.0",
         "typedoc": "^0.28.20",
         "typedoc-plugin-markdown": "^4.12.0",
